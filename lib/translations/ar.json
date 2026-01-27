@@ -1,0 +1,1076 @@
+{
+  "recaptchaGate": {
+    "title": "التحقق الأمني",
+    "description": "يرجى إكمال التحقق الأمني للمتابعة",
+    "verifying": "جارٍ التحقق...",
+    "helpText": "يساعد هذا التحقق في حماية منصتنا من الوصول الآلي"
+  },
+  "navigation": {
+    "signIn": "تسجيل الدخول",
+    "signUp": "انشاء الحساب",
+    "dashboard": "لوحة التحكم",
+    "logout": "تسجيل الخروج"
+  },
+  "auth": {
+    "signIn": "تسجيل الدخول",
+    "signUp": "انشاء الحساب",
+    "password": "كلمة المرور",
+    "email": "البريد الإلكتروني",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "rememberMe": "تذكرني",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "createAccount": "انشاء الحساب",
+    "phoneNumber": "رقم الهاتف",
+    "parentPhoneNumber": "رقم هاتف الوالد",
+    "fullName": "الاسم الكامل",
+    "grade": "الصف",
+    "selectGrade": "اختر الصف",
+    "grade9": "الصف الأول الثانوي",
+    "grade10": "الصف الثاني الثانوي",
+    "grade11": "الصف الثالث الثانوي",
+    "welcomeBack": "مرحباً بك مرة أخرى",
+    "welcomeMessage": "سجل دخولك واستكشف الكورسات التعليمية المميزة",
+    "signInTitle": "تسجيل الدخول",
+    "signInSubtitle": "أدخل رقم هاتفك وكلمة المرور للدخول إلى حسابك",
+    "signInButton": "تسجيل الدخول",
+    "signInLoading": "جاري تسجيل الدخول...",
+    "createNewAccount": "إنشاء حساب جديد",
+    "signUpTitle": "إنشاء حساب جديد",
+    "signUpSubtitle": "أدخل بياناتك لإنشاء حساب جديد",
+    "signUpWelcome": "مرحباً بك في منصة دلتا ∆ فى الفيزياء التعليمية",
+    "signUpMessage": "انضم إلينا اليوم وابدأ رحلة التعلم مع أفضل المدرسين",
+    "createAccountButton": "إنشاء حساب",
+    "creatingAccount": "جاري إنشاء الحساب...",
+    "passwordsMatch": "كلمات المرور متطابقة",
+    "passwordsNotMatch": "كلمات المرور غير متطابقة",
+    "errors": {
+      "missingCredentials": "الرجاء إدخال رقم الهاتف وكلمة المرور",
+      "invalidCredentials": "رقم الهاتف أو كلمة المرور خطأ",
+      "noPasswordSet": "هذا الحساب لا يحتوي على كلمة مرور. يرجى استخدام طريقة تسجيل دخول أخرى",
+      "serverError": "حدث خطأ في الخادم. يرجى المحاولة لاحقاً",
+      "accessDenied": "ليس لديك صلاحية للدخول",
+      "verificationFailed": "فشل التحقق من الحساب",
+      "networkError": "خطأ في الاتصال بالشبكة. يرجى التحقق من اتصالك بالإنترنت",
+      "timeout": "انتهت مهلة الاتصال. يرجى المحاولة مرة أخرى",
+      "phoneExists": "رقم الهاتف مسجل مسبقاً",
+      "parentPhoneExists": "رقم هاتف الوالد مسجل مسبقاً",
+      "samePhone": "رقم الهاتف لا يمكن أن يكون نفس رقم هاتف الوالد",
+      "accountCreationError": "حدث خطأ أثناء إنشاء الحساب",
+      "signInSuccess": "تم تسجيل الدخول بنجاح",
+      "accountCreated": "تم إنشاء الحساب بنجاح",
+      "selectGradeError": "يرجى اختيار صفك الدراسي"
+    }
+  },
+  "homepage": {
+    "teacherName": "أستاذ / سامي لمعي",
+    "platformName": "دلتا ∆ فى الفيزياء",
+    "platformDescription": "دلتا هى منصة تعليمية هدفها شرح و تبسيط مادة الفيزياء للمرحلة الثانوية",
+    "successStartsHere": "افهم الفيزياء ببساطة",
+    "startNow": "ابدأ الآن",
+    "availableCourses": "الكورسات المتاحة",
+    "discoverCourses": "اكتشف مجموعة متنوعة من الكورسات التعليمية المميزة",
+    "noCoursesAvailable": "لا توجد كورسات متاحة حالياً",
+    "coursesComingSoon": "سيتم إضافة الكورسات قريباً. تحقق من هذه الصفحة لاحقاً للاطلاع على أحدث الكورسات التعليمية.",
+    "signUpForEarlyAccess": "سجل الآن للوصول المبكر",
+    "chapter": "فصل",
+    "chapters": "فصول",
+    "quiz": "اختبار",
+    "quizzes": "اختبارات",
+    "viewCourse": "عرض الكورس",
+    "testimonials": "آراء الطلاب",
+    "testimonialsSubtitle": "ماذا يقول طلابنا عن تجربتهم معنا",
+    "platformFeatures": "مميزات المنصة",
+    "discoverFeatures": "اكتشف ما يجعل منصتنا مميزة",
+    "highQuality": "جودة عالية",
+    "highQualityDesc": "أفضل منصة متخصصة لكورسات الفيزياء للمرحلة الثانوية",
+    "activeCommunity": "مجتمع نشط",
+    "activeCommunityDesc": "انضم إلى مجتمع من الطلاب النشطين والمتفوقين والأوائل",
+    "certificates": "شهادات تقدير",
+    "certificatesDesc": "احصل على شهادات تقدير عند إكمال الكورسات",
+    "startLearningJourney": "ابدأ رحلة التعلم معنا",
+    "joinUsToday": "انضم إلينا اليوم وابدأ رحلة النجاح",
+    "signUpNow": "سجل الآن"
+  },
+  "dashboard": {
+    "welcome": "مرحباً بك في لوحة التحكم",
+    "successStartsHere": "افهم الفيزياء ببساطة",
+    "currentBalance": "الرصيد الحالي",
+    "purchasedCourses": "الكورسات المشتراة",
+    "completedChapters": "الفصول المكتملة",
+    "averageScore": "متوسط الدرجات",
+    "lastWatchedChapter": "آخر فصل كنت تشاهده",
+    "chapterNumber": "الفصل رقم {number}",
+    "lastWatched": "آخر مشاهدة منذ ساعة",
+    "continueWatching": "متابعة المشاهدة",
+    "learningStats": "إحصائيات التعلم",
+    "totalChapters": "إجمالي الفصول",
+    "completedOf": "{completed} من {total} مكتمل",
+    "completedQuizzes": "الاختبارات المكتملة",
+    "myCourses": "كورساتي",
+    "progress": "التقدم",
+    "continueLearning": "متابعة التعلم",
+    "noCoursesPurchased": "لم تقم بشراء أي كورسات بعد",
+    "startLearningJourney": "ابدأ رحلة التعلم بشراء أول كورس لك",
+    "exploreCourses": "استكشف الكورسات المتاحة",
+    "egp": "جنيه"
+  },
+  "balance": {
+    "title": "إدارة الرصيد",
+    "description": "عرض رصيد حسابك وسجل المعاملات",
+    "addBalanceDescription": "أضف رصيد إلى حسابك لشراء الكورسات",
+    "accountBalance": "رصيد الحساب",
+    "availableBalance": "الرصيد المتاح في حسابك",
+    "addBalance": "إضافة رصيد",
+    "addBalanceSubtitle": "أضف مبلغ إلى رصيد حسابك",
+    "enterAmount": "أدخل المبلغ",
+    "adding": "جاري الإضافة...",
+    "addBalanceButton": "إضافة الرصيد",
+    "addViaVodafone": "إضافة رصيد عبر اورانج كاش أو انستاباي",
+    "transferInstructions": "قم بتحويل المبلغ إلى الرقم التالي ثم أرسل صورة الإيصال",
+    "vodafoneNumber": "رقم اورانج كاش / انستاباي",
+    "orangeCash": "اورانج كاش",
+    "instapay": "انستاباي",
+    "orangeCashNumber": "01224913239",
+    "instapayNumber": "01147424972",
+    "depositSteps": "خطوات الإيداع:",
+    "step1": "قم بتحويل المبلغ المطلوب إلى الرقم أعلاه (اورانج كاش أو انستاباي)",
+    "step2": "احفظ صورة إيصال التحويل من التطبيق",
+    "step3": "اضغط على زر \"إرسال صورة الإيصال\" أدناه",
+    "step4": "سيتم مراجعة طلبك وإضافة الرصيد إلى حسابك خلال 24 ساعة",
+    "sendReceipt": "إرسال صورة الإيصال على واتساب",
+    "transactionHistory": "سجل المعاملات",
+    "transactionHistoryDesc": "تاريخ جميع المعاملات المالية",
+    "noTransactions": "لا توجد معاملات حتى الآن",
+    "deposit": "إيداع",
+    "purchase": "شراء كورس",
+    "addedToBalance": "تم إضافة {amount} جنيه إلى الرصيد",
+    "purchasedCourse": "تم شراء الكورس: {course}",
+    "errors": {
+      "invalidAmount": "يرجى إدخال مبلغ صحيح",
+      "addSuccess": "تم إضافة الرصيد بنجاح",
+      "addError": "حدث خطأ أثناء إضافة الرصيد",
+      "copySuccess": "تم نسخ الرقم"
+    }
+  },
+  "footer": {
+    "whatsapp": "واتساب",
+    "masterWhatsapp": "المستر واتس",
+    "secretaryWhatsapp": "السكرتارية واتس",
+    "technicalSupportWhatsapp": "الدعم الفنى واتس",
+    "copyright": "© {year} Mordesu Studio. جميع الحقوق محفوظة"
+  },
+  "sidebar": {
+    "dashboard": "لوحة التحكم",
+    "courses": "الكورسات",
+    "balance": "الرصيد",
+    "teacher": {
+      "courses": "الكورسات",
+      "quizzes": "الاختبارات",
+      "grades": "الدرجات",
+      "analytics": "الاحصائيات",
+      "manageStudents": "إدارة الطلاب",
+      "manageBalances": "إدارة الأرصدة",
+      "addDeleteCourses": "اضافة و حذف الكورسات",
+      "passwords": "كلمات المرور",
+      "codes": "الاكواد",
+      "createStudentAccount": "إنشاء حساب طالب"
+    },
+    "admin": {
+      "manageUsers": "إدارة المستخدمين",
+      "courses": "الكورسات",
+      "quizzes": "الاختبارات",
+      "createStudentAccount": "إنشاء حساب طالب",
+      "passwords": "كلمات المرور",
+      "manageBalances": "إدارة الأرصدة",
+      "studentProgress": "تقدم الطلاب",
+      "addDeleteCourses": "اضافة و حذف الكورسات",
+      "codes": "الاكواد"
+    }
+  },
+  "search": {
+    "title": "البحث عن الكورسات",
+    "subtitle": "اكتشف مجموعة متنوعة من الكورسات التعليمية المميزة",
+    "searchResults": "نتائج البحث عن \"{query}\"",
+    "allCourses": "جميع الكورسات ({count})",
+    "searchResultsCount": "نتائج البحث ({count})",
+    "coursesAvailable": "{count} كورس متاح",
+    "coursesAvailablePlural": "{count} كورس متاح",
+    "searchPlaceholder": "ابحث عن كورسات تعليمية...",
+    "searchButton": "بحث",
+    "subscribed": "مشترك",
+    "available": "متاح",
+    "free": "مجاني",
+    "student": "طالب",
+    "students": "طلاب",
+    "continueLearning": "متابعة التعلم",
+    "viewCourse": "عرض الكورس",
+    "purchaseCourse": "شراء الكورس",
+    "paymentNotification": "تنويه: بعد الدفع بأحدى الوسائل المذكورة (اورانج كاش أو انستاباي)، يرجى إرسال سكرين شوت للدفع على واتساب فريق الدعم الفنى",
+    "technicalSupportWhatsapp": "01514198319",
+    "noCoursesFound": "لم يتم العثور على كورسات",
+    "noCoursesAvailable": "لا توجد كورسات متاحة",
+    "tryDifferentSearch": "جرب البحث بكلمات مختلفة أو تصفح جميع الكورسات",
+    "coursesComingSoon": "سيتم إضافة كورسات جديدة قريباً",
+    "viewAllCourses": "عرض جميع الكورسات"
+  },
+  "course": {
+    "quiz": "اختبار",
+    "free": "مجاني"
+  },
+  "teacher": {
+    "courses": {
+      "title": "الكورسات الخاصة بك",
+      "createNew": "إنشاء كورس جديدة",
+      "unpublishedWarning": "لنشر الكورسات على الصفحة الرئيسية، تحتاج إلى:",
+      "requirements": {
+        "title": "إضافة عنوان للكورس",
+        "description": "إضافة وصف للكورس",
+        "image": "إضافة صورة للكورس",
+        "chapter": "إضافة فصل واحد على الأقل ونشره",
+        "publish": "النقر على زر \"نشر\" في صفحة إعدادات الكورس"
+      },
+      "settings": {
+        "title": "إعداد الكورس",
+        "completeFields": "أكمل جميع الحقول {completion}",
+        "customizeCourse": "تخصيص دورتك",
+        "resourcesChapters": "الموارد والفصول",
+        "courseSettings": "إعدادات الكورس",
+        "unpublishedBanner": "هذه الكورس غير منشورة. لن تكون مرئية للطلاب.",
+        "fields": {
+          "title": "العنوان",
+          "description": "الوصف",
+          "image": "الصورة",
+          "price": "السعر",
+          "publishedChapter": "فصل منشور"
+        }
+      }
+    },
+    "quizzes": {
+      "title": "إدارة الاختبارات",
+      "createNew": "إنشاء اختبار جديد",
+      "searchPlaceholder": "البحث في الاختبارات...",
+      "table": {
+        "quizTitle": "عنوان الاختبار",
+        "course": "الكورس",
+        "position": "الموقع",
+        "status": "الحالة",
+        "questionsCount": "عدد الأسئلة",
+        "createdAt": "تاريخ الإنشاء",
+        "actions": "الإجراءات"
+      },
+      "status": {
+        "published": "منشور",
+        "draft": "مسودة"
+      },
+      "actions": {
+        "view": "عرض",
+        "edit": "تعديل",
+        "publish": "نشر",
+        "unpublish": "إلغاء النشر",
+        "delete": "حذف",
+        "deleting": "جاري الحذف..."
+      },
+      "deleteConfirm": "هل أنت متأكد من حذف هذا الاختبار؟",
+      "deleteSuccess": "تم حذف الاختبار بنجاح",
+      "deleteError": "حدث خطأ أثناء حذف الاختبار",
+      "publishSuccess": "تم النشر بنجاح",
+      "unpublishSuccess": "تم إلغاء النشر",
+      "publishError": "حدث خطأ",
+      "create": {
+        "title": "إنشاء اختبار جديد",
+        "backToQuizzes": "العودة إلى الاختبارات",
+        "selectCourse": "اختر الكورس",
+        "selectCoursePlaceholder": "اختر كورس...",
+        "quizTitle": "عنوان الاختبار",
+        "quizTitlePlaceholder": "أدخل عنوان الاختبار",
+        "newQuiz": "اختبار جديد",
+        "position": {
+          "title": "ترتيب الاختبار في الكورس",
+          "description": "اسحب الاختبار الجديد إلى الموقع المطلوب بين الفصول والاختبارات الموجودة",
+          "selectedPosition": "الموقع المحدد: {position}",
+          "loading": "جاري تحميل محتوى الكورس...",
+          "empty": "لا توجد فصول أو اختبارات في هذه الكورس. سيتم إضافة الاختبار في الموقع الأول.",
+          "chapter": "فصل",
+          "quiz": "اختبار",
+          "new": "جديد"
+        },
+        "description": "وصف الاختبار",
+        "descriptionPlaceholder": "أدخل وصف الاختبار",
+        "timer": {
+          "label": "مدة الاختبار (بالدقائق)",
+          "placeholder": "اترك فارغاً لعدم تحديد مدة",
+          "hint": "اترك الحقل فارغاً إذا كنت لا تريد تحديد مدة للاختبار"
+        },
+        "maxAttempts": {
+          "label": "عدد المحاولات المسموحة",
+          "hint": "عدد المرات التي يمكن للطالب إعادة الاختبار"
+        },
+        "questions": {
+          "label": "الأسئلة",
+          "addQuestion": "إضافة سؤال",
+          "questionNumber": "السؤال {number}",
+          "incomplete": "غير مكتمل",
+          "questionText": "نص السؤال",
+          "listening": "جاري الاستماع...",
+          "startRecording": "بدء التسجيل الصوتي",
+          "stopRecording": "إيقاف التسجيل الصوتي",
+          "questionTextPlaceholder": "أدخل نص السؤال",
+          "questionImage": "صورة السؤال (اختياري)",
+          "imageUploadSuccess": "تم رفع الصورة بنجاح",
+          "imageUploadError": "حدث خطأ أثناء رفع الصورة: {error}",
+          "questionType": "نوع السؤال",
+          "points": "الدرجات",
+          "multipleChoice": "اختيار من متعدد",
+          "trueFalse": "صح أو خطأ",
+          "shortAnswer": "إجابة قصيرة",
+          "options": "الخيارات",
+          "optionPlaceholder": "الخيار {number}",
+          "correctAnswer": "الإجابة الصحيحة",
+          "selectCorrectAnswer": "اختر الإجابة الصحيحة",
+          "true": "صح",
+          "false": "خطأ",
+          "correctAnswerPlaceholder": "أدخل الإجابة الصحيحة"
+        },
+        "errors": {
+          "requiredFields": "يرجى إدخال جميع البيانات المطلوبة",
+          "questionTextRequired": "السؤال {number}: نص السؤال مطلوب",
+          "questionOptionsRequired": "السؤال {number}: يجب إضافة خيار واحد على الأقل",
+          "questionCorrectAnswerRequired": "السؤال {number}: يجب اختيار إجابة صحيحة",
+          "questionCorrectAnswerTextRequired": "السؤال {number}: الإجابة الصحيحة مطلوبة",
+          "questionPointsRequired": "السؤال {number}: الدرجات يجب أن تكون أكبر من صفر",
+          "atLeastOneQuestion": "يجب إضافة سؤال واحد على الأقل",
+          "createSuccess": "تم إنشاء الاختبار بنجاح",
+          "createError": "حدث خطأ أثناء إنشاء الاختبار",
+          "speechNotSupported": "المتصفح لا يدعم الإملاء الصوتي",
+          "speechRecognitionError": "تعذر التعرف على الصوت",
+          "speechStartError": "تعذر بدء التسجيل الصوتي"
+        },
+        "cancel": "إلغاء",
+        "creating": "جاري الحفظ...",
+        "createQuiz": "إنشاء الاختبار"
+      }
+    },
+    "grades": {
+      "title": "درجات الطلاب",
+      "loading": "جاري التحميل...",
+      "summary": {
+        "totalStudents": "إجمالي الطلاب",
+        "averageScore": "متوسط الدرجات",
+        "highestScore": "أعلى درجة",
+        "totalQuizzes": "إجمالي الاختبارات"
+      },
+      "filters": {
+        "title": "فلاتر البحث",
+        "search": "البحث",
+        "searchPlaceholder": "البحث بالطالب أو الاختبار...",
+        "course": "الكورس",
+        "allCourses": "جميع الكورسات",
+        "quiz": "الاختبار",
+        "allQuizzes": "جميع الاختبارات"
+      },
+      "table": {
+        "title": "نتائج الاختبارات",
+        "student": "الطالب",
+        "quiz": "الاختبار",
+        "course": "الكورس",
+        "score": "الدرجة",
+        "percentage": "النسبة المئوية",
+        "submittedAt": "تاريخ التقديم",
+        "actions": "الإجراءات",
+        "viewDetails": "عرض التفاصيل"
+      },
+      "details": {
+        "title": "تفاصيل نتيجة {name}",
+        "summary": {
+          "title": "ملخص النتيجة",
+          "score": "الدرجة",
+          "percentage": "النسبة المئوية",
+          "correctAnswers": "إجابات صحيحة",
+          "wrongAnswers": "إجابات خاطئة",
+          "overallProgress": "التقدم العام"
+        },
+        "answers": {
+          "title": "تفاصيل الإجابات",
+          "questionNumber": "السؤال {number}",
+          "correct": "صحيح",
+          "wrong": "خاطئ",
+          "studentAnswer": "إجابة الطالب:",
+          "correctAnswer": "الإجابة الصحيحة:",
+          "points": "الدرجات:"
+        }
+      }
+    },
+    "users": {
+      "title": "إدارة المستخدمين",
+      "staffTitle": "المشرفين والمعلمين",
+      "studentsTitle": "قائمة الطلاب",
+      "searchPlaceholder": "البحث بالاسم أو رقم الهاتف...",
+      "table": {
+        "name": "الاسم",
+        "phoneNumber": "رقم الهاتف",
+        "parentPhoneNumber": "رقم هاتف الوالد",
+        "role": "الدور",
+        "balance": "الرصيد",
+        "purchasedCourses": "الكورسات المشتراة",
+        "registrationDate": "تاريخ التسجيل",
+        "actions": "الإجراءات"
+      },
+      "roles": {
+        "student": "طالب",
+        "teacher": "معلم",
+        "admin": "مشرف"
+      },
+      "edit": {
+        "title": "تعديل بيانات {role}",
+        "description": "قم بتعديل معلومات {role}",
+        "studentTitle": "تعديل بيانات الطالب",
+        "studentDescription": "قم بتعديل معلومات الطالب",
+        "saveChanges": "حفظ التغييرات",
+        "selectRole": "اختر الدور"
+      },
+      "delete": {
+        "confirm": "هل أنت متأكد؟",
+        "description": "هذا الإجراء لا يمكن التراجع عنه. سيتم حذف {role} وجميع البيانات المرتبطة به نهائياً.",
+        "studentDescription": "هذا الإجراء لا يمكن التراجع عنه. سيتم حذف الطالب وجميع البيانات المرتبطة به نهائياً."
+      },
+      "errors": {
+        "noAccess": "ليس لديك صلاحية للوصول إلى هذه الصفحة",
+        "loadError": "حدث خطأ في تحميل الطلاب",
+        "updateSuccess": "تم تحديث بيانات {role} بنجاح",
+        "updateError": "حدث خطأ في تحديث البيانات",
+        "noPermission": "ليس لديك صلاحية لتعديل البيانات",
+        "notFound": "المستخدم غير موجود",
+        "invalidData": "بيانات غير صحيحة",
+        "deleteSuccess": "تم حذف المستخدم بنجاح",
+        "deleteError": "حدث خطأ في حذف المستخدم",
+        "noPermissionDelete": "ليس لديك صلاحية لحذف المستخدم"
+      },
+      "empty": "لا يوجد مستخدمين مسجلين حالياً"
+    },
+    "analytics": {
+      "title": "لوحة الاحصائيات",
+      "subtitle": "التحليلات الخاصة بك",
+      "metrics": {
+        "totalRevenue": "إجمالي الإيرادات",
+        "totalSales": "إجمالي المبيعات",
+        "publishedCourses": "الكورسات المنشورة"
+      },
+      "charts": {
+        "revenueByCourse": "الإيرادات بالكورس",
+        "salesDistribution": "توزيع المبيعات",
+        "revenueLabel": "الإيرادات"
+      },
+      "performance": {
+        "title": "أداء الكورس",
+        "course": "الكورس",
+        "sales": "المبيعات",
+        "revenue": "الإيرادات",
+        "completionRate": "معدل الاكتمال"
+      }
+    },
+    "balances": {
+      "title": "إدارة الأرصدة",
+      "studentsTitle": "قائمة الطلاب",
+      "searchPlaceholder": "البحث بالاسم أو رقم الهاتف...",
+      "table": {
+        "name": "الاسم",
+        "phoneNumber": "رقم الهاتف",
+        "role": "الدور",
+        "currentBalance": "الرصيد الحالي",
+        "actions": "الإجراءات"
+      },
+      "edit": {
+        "title": "تعديل رصيد {name}",
+        "newBalance": "الرصيد الجديد (جنيه)",
+        "placeholder": "أدخل الرصيد الجديد",
+        "update": "تحديث الرصيد"
+      },
+      "errors": {
+        "enterBalance": "يرجى إدخال رصيد جديد",
+        "validBalance": "يرجى إدخال رصيد صحيح",
+        "updateSuccess": "تم تحديث الرصيد بنجاح",
+        "updateError": "حدث خطأ أثناء تحديث الرصيد"
+      },
+      "empty": "لا توجد طلاب متاحين"
+    },
+    "codes": {
+      "title": "إدارة الأكواد",
+      "createNew": "إنشاء أكواد جديدة",
+      "searchPlaceholder": "البحث بالكود أو اسم الكورس...",
+      "filterByCourse": "تصفية حسب الكورس:",
+      "allCourses": "جميع الكورسات",
+      "stats": {
+        "total": "إجمالي الأكواد",
+        "unused": "أكواد غير مستخدمة",
+        "used": "أكواد مستخدمة"
+      },
+      "table": {
+        "code": "الكود",
+        "course": "الكورس",
+        "status": "الحالة",
+        "user": "المستخدم",
+        "usedAt": "تاريخ الاستخدام",
+        "createdAt": "تاريخ الإنشاء",
+        "actions": "الإجراءات"
+      },
+      "status": {
+        "used": "مستخدم",
+        "unused": "غير مستخدم"
+      },
+      "generate": {
+        "title": "إنشاء أكواد جديدة",
+        "course": "الكورس",
+        "selectCourse": "اختر الكورس",
+        "count": "عدد الأكواد",
+        "placeholder": "1-100",
+        "generating": "جاري الإنشاء...",
+        "create": "إنشاء"
+      },
+      "errors": {
+        "loadError": "حدث خطأ في تحميل الأكواد",
+        "selectCourseCount": "يرجى اختيار الكورس وعدد الأكواد (1-100)",
+        "generateSuccess": "تم إنشاء {count} كود بنجاح",
+        "generateError": "حدث خطأ أثناء إنشاء الأكواد",
+        "copySuccess": "تم نسخ الكود",
+        "copyError": "فشل نسخ الكود"
+      },
+      "empty": "لا توجد أكواد"
+    },
+    "passwords": {
+      "title": "إدارة كلمات المرور",
+      "staffTitle": "المشرفين والمعلمين",
+      "studentsTitle": "قائمة الطلاب",
+      "searchPlaceholder": "البحث بالاسم أو رقم الهاتف...",
+      "table": {
+        "name": "الاسم",
+        "phoneNumber": "رقم الهاتف",
+        "role": "الدور",
+        "actions": "الإجراءات"
+      },
+      "change": {
+        "title": "تغيير كلمة مرور {name}",
+        "newPassword": "كلمة المرور الجديدة",
+        "placeholder": "أدخل كلمة المرور الجديدة",
+        "button": "تغيير كلمة المرور"
+      },
+      "errors": {
+        "enterPassword": "يرجى إدخال كلمة مرور جديدة",
+        "changeSuccess": "تم تغيير كلمة المرور بنجاح",
+        "changeError": "حدث خطأ أثناء تغيير كلمة المرور"
+      },
+      "empty": "لا توجد مستخدمين متاحين"
+    },
+    "createAccount": {
+      "title": "إنشاء حساب طالب جديد",
+      "back": "العودة",
+      "success": {
+        "title": "تم إنشاء الحساب بنجاح",
+        "createAnother": "إنشاء حساب آخر",
+        "backToCourses": "العودة للكورسات"
+      },
+      "form": {
+        "title": "معلومات الطالب",
+        "fullName": "الاسم الكامل *",
+        "fullNamePlaceholder": "أدخل الاسم الكامل",
+        "phoneNumber": "رقم الهاتف *",
+        "phoneNumberPlaceholder": "أدخل رقم الهاتف",
+        "parentPhoneNumber": "رقم هاتف الوالد *",
+        "parentPhoneNumberPlaceholder": "أدخل رقم هاتف الوالد",
+        "password": "كلمة المرور *",
+        "passwordPlaceholder": "أدخل كلمة المرور",
+        "confirmPassword": "تأكيد كلمة المرور *",
+        "confirmPasswordPlaceholder": "أكد كلمة المرور",
+        "reset": "إعادة تعيين",
+        "creating": "جاري الإنشاء...",
+        "createAccount": "إنشاء الحساب"
+      },
+      "errors": {
+        "passwordsNotMatch": "كلمات المرور غير متطابقة",
+        "phoneExists": "رقم الهاتف مسجل مسبقاً",
+        "parentPhoneExists": "رقم هاتف الوالد مسجل مسبقاً",
+        "samePhone": "رقم الهاتف لا يمكن أن يكون نفس رقم هاتف الوالد",
+        "createError": "حدث خطأ أثناء إنشاء الحساب",
+        "createSuccess": "تم إنشاء حساب الطالب بنجاح"
+      }
+    },
+    "addCourses": {
+      "title": "اضافة و حذف الكورسات للطلاب",
+      "studentsTitle": "قائمة الطلاب",
+      "searchPlaceholder": "البحث بالاسم أو رقم الهاتف...",
+      "table": {
+        "name": "الاسم",
+        "phoneNumber": "رقم الهاتف",
+        "role": "الدور",
+        "purchasedCourses": "الكورسات المشتراة",
+        "actions": "الإجراءات"
+      },
+      "add": {
+        "title": "إضافة كورس لـ {name}",
+        "button": "إضافة كورس",
+        "selectCourse": "اختر الكورس",
+        "selectPlaceholder": "اختر كورس...",
+        "adding": "جاري الإضافة...",
+        "addCourse": "إضافة الكورس"
+      },
+      "delete": {
+        "title": "حذف كورس من {name}",
+        "button": "حذف الكورس",
+        "deleting": "جاري الحذف..."
+      },
+      "errors": {
+        "selectStudentCourse": "يرجى اختيار الطالب والكورس",
+        "addSuccess": "تم إضافة الكورس للطالب بنجاح",
+        "addError": "حدث خطأ أثناء إضافة الكورس",
+        "deleteSuccess": "تم حذف الكورس من الطالب بنجاح",
+        "deleteError": "حدث خطأ أثناء حذف الكورس"
+      },
+      "empty": "لا توجد طلاب متاحين"
+    },
+    "courseEdit": {
+      "unpublishedBanner": "هذه الكورس غير منشورة. لن تكون مرئية للطلاب.",
+      "setupTitle": "إعداد الكورس",
+      "completeFields": "أكمل جميع الحقول {completion}",
+      "customizeCourse": "تخصيص دورتك",
+      "resourcesChapters": "الموارد والفصول",
+      "courseSettings": "إعدادات الكورس",
+      "fields": {
+        "title": "العنوان",
+        "description": "الوصف",
+        "image": "الصورة",
+        "price": "السعر",
+        "publishedChapter": "فصل منشور"
+      },
+      "forms": {
+        "courseTitle": "عنوان الكورس",
+        "editTitle": "تعديل العنوان",
+        "noTitle": "لا يوجد عنوان",
+        "unnamedCourse": "كورس غير معرفة",
+        "courseDescription": "وصف الكورس",
+        "editDescription": "تعديل الوصف",
+        "noDescription": "لا يوجد وصف",
+        "courseImage": "صورة الكورس",
+        "addImage": "إضافة صورة",
+        "editImage": "تعديل الصورة",
+        "coursePrice": "سعر الكورس",
+        "editPrice": "تعديل السعر",
+        "noPrice": "لا يوجد سعر",
+        "courseGrade": "صف الكورس",
+        "editGrade": "تعديل الصف",
+        "noGrade": "لم يتم تحديد صف (جميع الصفوف)",
+        "selectGrade": "اختر الصف (اختياري)",
+        "gradeDisplay": "الصف {grade}",
+        "allGrades": "جميع الصفوف",
+        "grade9": "الصف الأول الثانوي",
+        "grade10": "الصف الثاني الثانوي",
+        "grade11": "الصف الثالث الثانوي",
+        "updateSuccess": "تم تحديث الكورس",
+        "updateError": "حدث خطأ",
+        "publishSuccess": "تم نشر الكورس",
+        "unpublishSuccess": "تم إلغاء النشر",
+        "publishError": "حدث خطأ",
+        "publish": "نشر الكورس",
+        "unpublish": "إلغاء النشر",
+        "cannotPublish": "لا يمكن نشر الكورس حتى:",
+        "requirements": {
+          "title": "إضافة عنوان للكورس",
+          "description": "إضافة وصف للكورس",
+          "image": "إضافة صورة للكورس",
+          "price": "تحديد سعر للكورس (يمكن أن يكون مجاني)",
+          "chapter": "إضافة فصل واحد على الأقل ونشره"
+        }
+      },
+      "content": {
+        "title": "محتوى الكورس (فصول واختبارات)",
+        "addQuiz": "إضافة اختبار",
+        "addChapter": "إضافة فصل",
+        "cancel": "إلغاء",
+        "create": "انشاء",
+        "noContent": "لا يوجد محتوى",
+        "dragDropHint": "قم بالسحب والإفلات لترتيب الفصول والاختبارات",
+        "chapterPlaceholder": "مثال: 'المقدمة في الكورس'",
+        "list": {
+          "chapter": "فصل",
+          "quiz": "اختبار",
+          "free": "مجاني",
+          "published": "تم النشر",
+          "draft": "مسودة",
+          "editVideo": "تعديل فيديو",
+          "addVideo": "اضافة فيديو",
+          "editQuiz": "تعديل اختبار",
+          "addQuiz": "اضافة اختبار"
+        },
+        "toasts": {
+          "chapterCreated": "تم انشاء الفصل",
+          "chapterDeleted": "تم حذف الفصل",
+          "quizDeleted": "تم حذف الاختبار",
+          "reordered": "تم ترتيب المحتوى",
+          "error": "حدث خطأ"
+        }
+      }
+    },
+    "chapterEdit": {
+      "backToCourse": "الرجوع إلى إعدادات الكورس",
+      "setupTitle": "إعدادات الفصل",
+      "completeFields": "أكمل جميع الحقول {completion}",
+      "addVideo": "إضافة فيديو",
+      "chapterTitle": "عنوان الفصل",
+      "editTitle": "تعديل العنوان",
+      "chapterDescription": "وصف الفصل",
+      "editDescription": "تعديل الوصف",
+      "chapterVideo": "فيديو الفصل",
+      "editVideo": "تعديل الفيديو",
+      "updateSuccess": "تم تحديث الفصل",
+      "updateError": "حدث خطأ",
+      "accessSettings": "إعدادات الوصول",
+      "freePreview": "هذا الفصل مجاني للمعاينة",
+      "notFree": "هذا الفصل غير مجاني",
+      "makeFree": "قم بالتحقق من هذا المربع إذا أردت جعل هذا الفصل مجانيًا للمعاينة",
+      "chapterDocuments": "مستندات الفصل",
+      "manageDocuments": "إدارة المستندات",
+      "chapterDocument": "مستند الفصل",
+      "noDocuments": "لا توجد مستندات مرفوعة",
+      "view": "عرض",
+      "download": "تحميل",
+      "downloadStarted": "تم بدء تحميل الملف",
+      "downloadOpened": "تم فتح الملف في تبويب جديد للتحميل",
+      "documentUploaded": "تم رفع المستند بنجاح",
+      "documentDeleted": "تم حذف المستند بنجاح",
+      "addDocumentsHint": "أضف مستندات إضافية قد يحتاجها الطلاب لفهم الفصل بشكل أفضل.",
+      "published": "الفصل منشور",
+      "unpublished": "الفصل غير منشور",
+      "publishedDescription": "يمكن للطلاب مشاهدة هذا الفصل الآن. يمكنك إلغاء النشر لإخفائه مؤقتًا.",
+      "unpublishedDescription": "لن يكون هذا الفصل مرئيًا للطلاب حتى يتم نشره.",
+      "publishChapter": "نشر الفصل",
+      "unpublishChapter": "إلغاء النشر",
+      "uploadVideo": "رفع فيديو",
+      "youtubeLink": "رابط YouTube",
+      "uploadFromDevice": "ارفع فيديو من جهازك",
+      "pasteYoutubeLink": "الصق رابط فيديو YouTube",
+      "youtubeUrl": "رابط YouTube",
+      "add": "إضافة",
+      "supportedLinks": "يدعم الروابط التالية:",
+      "uploadSuccess": "تم رفع الفيديو بنجاح",
+      "youtubeSuccess": "تم إضافة فيديو YouTube بنجاح",
+      "youtubeError": "يرجى إدخال رابط YouTube",
+      "uploadError": "حدث خطأ ما"
+    }
+  },
+  "admin": {
+    "redirecting": "جاري التوجيه...",
+    "courses": {
+      "title": "كل الكورسات",
+      "createNew": "إنشاء كورس جديدة",
+      "unpublishedWarning": "لنشر الكورسات على الصفحة الرئيسية، تحتاج إلى:",
+      "requirements": {
+        "title": "إضافة عنوان للكورس",
+        "description": "إضافة وصف للكورس",
+        "image": "إضافة صورة للكورس",
+        "chapter": "إضافة فصل واحد على الأقل ونشره",
+        "publish": "النقر على زر \"نشر\" في صفحة إعدادات الكورس"
+      }
+    },
+    "users": {
+      "title": "إدارة المستخدمين",
+      "loadError": "حدث خطأ في تحميل المستخدمين",
+      "table": {
+        "name": "الاسم",
+        "phoneNumber": "رقم الهاتف",
+        "parentPhoneNumber": "رقم هاتف الوالد",
+        "role": "الدور",
+        "balance": "الرصيد",
+        "purchasedCourses": "الكورسات المشتراة",
+        "registrationDate": "تاريخ التسجيل",
+        "actions": "الإجراءات"
+      },
+      "edit": {
+        "title": "تعديل بيانات المستخدم",
+        "description": "قم بتعديل معلومات المستخدم",
+        "saveChanges": "حفظ التغييرات",
+        "selectRole": "اختر الدور"
+      },
+      "delete": {
+        "confirm": "هل أنت متأكد؟",
+        "description": "هذا الإجراء لا يمكن التراجع عنه. سيتم حذف المستخدم وجميع البيانات المرتبطة به نهائياً."
+      },
+      "errors": {
+        "updateSuccess": "تم تحديث بيانات المستخدم بنجاح",
+        "updateError": "حدث خطأ في تحديث البيانات",
+        "deleteSuccess": "تم حذف المستخدم بنجاح",
+        "deleteError": "حدث خطأ في حذف المستخدم"
+      },
+      "empty": "لا يوجد مستخدمين مسجلين حالياً"
+    },
+    "progress": {
+      "title": "تقدم الطلاب",
+      "studentsTitle": "قائمة الطلاب",
+      "searchPlaceholder": "البحث بالاسم أو رقم الهاتف...",
+      "table": {
+        "name": "الاسم",
+        "phoneNumber": "رقم الهاتف",
+        "purchasedCourses": "الكورسات المشتراة",
+        "progress": "التقدم",
+        "actions": "الإجراءات"
+      },
+      "course": "كورس",
+      "chapter": "فصل",
+      "viewProgress": "عرض التقدم",
+      "dialog": {
+        "title": "تقدم {name}",
+        "summary": {
+          "title": "ملخص التقدم",
+          "completionRate": "نسبة الإنجاز",
+          "completed": "مكتمل",
+          "notStarted": "لم يبدأ"
+        },
+        "purchasedCourses": {
+          "title": "الكورسات المشتراة",
+          "courseName": "اسم الكورس",
+          "price": "السعر",
+          "status": "الحالة",
+          "purchaseDate": "تاريخ الشراء",
+          "active": "نشط",
+          "inactive": "غير نشط"
+        },
+        "progressDetails": {
+          "title": "تفاصيل التقدم",
+          "course": "الكورس",
+          "chapter": "الفصل",
+          "status": "الحالة",
+          "lastUpdate": "آخر تحديث",
+          "completed": "مكتمل",
+          "inProgress": "قيد التقدم",
+          "notStarted": "لم يبدأ"
+        },
+        "noProgress": "لا يوجد تقدم",
+        "noPurchases": "لا توجد كورسات مشتراة"
+      }
+    },
+    "passwords": {
+      "title": "إدارة كلمات المرور",
+      "staffTitle": "المشرفين والمعلمين",
+      "studentsTitle": "قائمة الطلاب",
+      "searchPlaceholder": "البحث بالاسم أو رقم الهاتف...",
+      "table": {
+        "name": "الاسم",
+        "phoneNumber": "رقم الهاتف",
+        "role": "الدور",
+        "actions": "الإجراءات"
+      },
+      "change": {
+        "title": "تغيير كلمة مرور {name}",
+        "newPassword": "كلمة المرور الجديدة",
+        "placeholder": "أدخل كلمة المرور الجديدة",
+        "button": "تغيير كلمة المرور",
+        "changing": "جاري التغيير..."
+      },
+      "errors": {
+        "enterPassword": "يرجى إدخال كلمة مرور جديدة",
+        "changeSuccess": "تم تغيير كلمة المرور بنجاح",
+        "changeError": "حدث خطأ أثناء تغيير كلمة المرور"
+      },
+      "empty": "لا توجد مستخدمين متاحين"
+    },
+    "balances": {
+      "title": "إدارة الأرصدة",
+      "studentsTitle": "قائمة الطلاب",
+      "searchPlaceholder": "البحث بالاسم أو رقم الهاتف...",
+      "table": {
+        "name": "الاسم",
+        "phoneNumber": "رقم الهاتف",
+        "role": "الدور",
+        "currentBalance": "الرصيد الحالي",
+        "actions": "الإجراءات"
+      },
+      "edit": {
+        "title": "تعديل رصيد {name}",
+        "newBalance": "الرصيد الجديد (جنيه)",
+        "placeholder": "أدخل الرصيد الجديد",
+        "updating": "جاري التحديث...",
+        "updateBalance": "تحديث الرصيد"
+      },
+      "errors": {
+        "enterBalance": "يرجى إدخال رصيد صحيح",
+        "updateSuccess": "تم تحديث الرصيد بنجاح",
+        "updateError": "حدث خطأ أثناء تحديث الرصيد"
+      },
+      "empty": "لا توجد طلاب متاحين",
+      "egp": "جنيه"
+    },
+    "addCourses": {
+      "title": "اضافة و حذف الكورسات للطلاب",
+      "studentsTitle": "قائمة الطلاب",
+      "searchPlaceholder": "البحث بالاسم أو رقم الهاتف...",
+      "table": {
+        "name": "الاسم",
+        "phoneNumber": "رقم الهاتف",
+        "role": "الدور",
+        "purchasedCourses": "الكورسات المشتراة",
+        "actions": "الإجراءات"
+      },
+      "add": {
+        "title": "إضافة كورس لـ {name}",
+        "button": "إضافة كورس",
+        "selectCourse": "اختر الكورس",
+        "selectPlaceholder": "اختر كورس...",
+        "adding": "جاري الإضافة...",
+        "addCourse": "إضافة الكورس"
+      },
+      "delete": {
+        "title": "حذف كورس من {name}",
+        "button": "حذف الكورس",
+        "deleting": "جاري الحذف..."
+      },
+      "errors": {
+        "selectStudentCourse": "يرجى اختيار الطالب والكورس",
+        "addSuccess": "تم إضافة الكورس للطالب بنجاح",
+        "addError": "حدث خطأ أثناء إضافة الكورس",
+        "deleteSuccess": "تم حذف الكورس من الطالب بنجاح",
+        "deleteError": "حدث خطأ أثناء حذف الكورس"
+      },
+      "empty": "لا توجد طلاب متاحين"
+    },
+    "quizzes": {
+      "title": "كل الاختبارات",
+      "createNew": "إنشاء اختبار",
+      "quizzesTitle": "الاختبارات",
+      "searchPlaceholder": "البحث في الاختبارات...",
+      "table": {
+        "quizTitle": "عنوان الاختبار",
+        "course": "الكورس",
+        "position": "الموقع",
+        "status": "الحالة",
+        "questionsCount": "عدد الأسئلة",
+        "createdAt": "تاريخ الإنشاء",
+        "actions": "الإجراءات"
+      },
+      "status": {
+        "published": "منشور",
+        "draft": "مسودة"
+      },
+      "question": "سؤال",
+      "actions": {
+        "view": "عرض",
+        "edit": "تعديل",
+        "publish": "نشر",
+        "unpublish": "إلغاء النشر",
+        "updating": "جاري التحديث...",
+        "delete": "حذف",
+        "deleting": "جاري الحذف..."
+      },
+      "errors": {
+        "loadError": "تعذر تحميل الاختبارات",
+        "loadErrorGeneric": "حدث خطأ أثناء التحميل",
+        "updateError": "حدث خطأ أثناء تحديث حالة الاختبار",
+        "publishSuccess": "تم النشر بنجاح",
+        "unpublishSuccess": "تم إلغاء النشر",
+        "deleteConfirm": "هل أنت متأكد من حذف الاختبار \"{title}\"؟ سيتم حذف جميع الأسئلة المرتبطة به.",
+        "deleteSuccess": "تم حذف الاختبار بنجاح",
+        "deleteError": "تعذر حذف الاختبار"
+      },
+      "empty": "لا توجد اختبارات"
+    },
+    "codes": {
+      "title": "إدارة الأكواد",
+      "createNew": "إنشاء أكواد جديدة",
+      "codesList": "قائمة الأكواد",
+      "searchPlaceholder": "البحث بالكود أو اسم الكورس أو المنشئ...",
+      "filterByCourse": "تصفية حسب الكورس:",
+      "allCourses": "جميع الكورسات",
+      "statistics": {
+        "totalCodes": "إجمالي الأكواد",
+        "unusedCodes": "أكواد غير مستخدمة",
+        "usedCodes": "أكواد مستخدمة"
+      },
+      "table": {
+        "code": "الكود",
+        "course": "الكورس",
+        "creator": "المنشئ",
+        "status": "الحالة",
+        "user": "المستخدم",
+        "usedAt": "تاريخ الاستخدام",
+        "createdAt": "تاريخ الإنشاء",
+        "actions": "الإجراءات"
+      },
+      "status": {
+        "used": "مستخدم",
+        "unused": "غير مستخدم"
+      },
+      "generate": {
+        "title": "إنشاء أكواد جديدة",
+        "course": "الكورس",
+        "selectCourse": "اختر الكورس",
+        "count": "عدد الأكواد",
+        "countPlaceholder": "1-100",
+        "cancel": "إلغاء",
+        "create": "إنشاء",
+        "creating": "جاري الإنشاء..."
+      },
+      "errors": {
+        "loadError": "حدث خطأ في تحميل الأكواد",
+        "selectCourseAndCount": "يرجى اختيار الكورس وعدد الأكواد (1-100)",
+        "generateSuccess": "تم إنشاء {count} كود بنجاح",
+        "generateError": "حدث خطأ أثناء إنشاء الأكواد",
+        "copySuccess": "تم نسخ الكود",
+        "copyError": "فشل نسخ الكود"
+      },
+      "empty": "لا توجد أكواد"
+    },
+    "createAccount": {
+      "title": "إنشاء حساب طالب جديد",
+      "back": "العودة",
+      "success": {
+        "title": "تم إنشاء الحساب بنجاح!",
+        "createAnother": "إنشاء حساب آخر",
+        "backToCourses": "العودة إلى الكورسات"
+      },
+      "form": {
+        "title": "معلومات الطالب",
+        "fullName": "الاسم الكامل *",
+        "fullNamePlaceholder": "أدخل الاسم الكامل",
+        "phoneNumber": "رقم الهاتف *",
+        "phoneNumberPlaceholder": "أدخل رقم الهاتف",
+        "parentPhoneNumber": "رقم هاتف الوالد *",
+        "parentPhoneNumberPlaceholder": "أدخل رقم هاتف الوالد",
+        "password": "كلمة المرور *",
+        "passwordPlaceholder": "أدخل كلمة المرور",
+        "confirmPassword": "تأكيد كلمة المرور *",
+        "confirmPasswordPlaceholder": "أكد كلمة المرور",
+        "reset": "إعادة تعيين",
+        "creating": "جاري الإنشاء...",
+        "createAccount": "إنشاء الحساب"
+      },
+      "errors": {
+        "passwordsNotMatch": "كلمات المرور غير متطابقة",
+        "phoneExists": "رقم الهاتف مسجل مسبقاً",
+        "parentPhoneExists": "رقم هاتف الوالد مسجل مسبقاً",
+        "samePhone": "رقم الهاتف لا يمكن أن يكون نفس رقم هاتف الوالد",
+        "createError": "حدث خطأ أثناء إنشاء الحساب",
+        "createSuccess": "تم إنشاء حساب الطالب بنجاح"
+      }
+    }
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "close": "إغلاق",
+    "back": "رجوع",
+    "next": "التالي",
+    "noVideo": "لا يوجد فيديو",
+    "pleaseWait": "يرجى الانتظار",
+    "toggleTheme": "تبديل السمة",
+    "light": "فاتح",
+    "selectOption": "اختر الخيار...",
+    "searchOption": "ابحث عن خيار...",
+    "noOptions": "لا يوجد خيارات.",
+    "switchToEnglish": "التبديل إلى العربية",
+    "arabic": "عربي"
+  }
+}
