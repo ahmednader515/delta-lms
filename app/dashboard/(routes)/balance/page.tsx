@@ -31,9 +31,9 @@ export default function BalancePage() {
   // Check if user is a student (USER role)
   const isStudent = session?.user?.role === "USER";
   
-  const orangeCashNumber = "01224913239";
+  const orangeCashNumber = "01284495266";
   const instapayNumber = "01147424972";
-  const whatsappLink = `https://wa.me/201224913239`;
+  const whatsappLink = `https://wa.me/201284495266`;
 
   useEffect(() => {
     fetchBalance();

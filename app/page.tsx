@@ -453,7 +453,7 @@ export default function HomePage() {
               {
                 name: "عصام اسامة",
                 grade: "الصف الأول الثانوي",
-                testimonial: "تجربة رائعة مع الأستاذ سامي لمعي، شرح مميز وطريقة سهلة في توصيل المعلومة"
+                testimonial: "تجربة رائعة مع الم سامي لمعي، شرح مميز وطريقة سهلة في توصيل المعلومة"
               },
               {
                 name: "سيف طارق",
@@ -462,7 +462,7 @@ export default function HomePage() {
               },
               {
                 name: "عمر جمال",
-                grade: "الصف الأول الثانوي",
+                grade: "الصف الثالث الثانوي",
                 testimonial: "أفضل منصة تعليمية استخدمتها، المحتوى غني والشرح مبسط"
               }
             ].map((testimonial, index) => (
@@ -596,6 +596,28 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
+
+      {/* WhatsApp Floating Button */}
+      <motion.a
+        href="https://wa.me/201284495266"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20BA5A] rounded-full p-3 shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        aria-label="Contact us on WhatsApp"
+      >
+        <Image
+          src="/whatsapp.png"
+          alt="WhatsApp"
+          width={32}
+          height={32}
+          className="object-contain"
+        />
+      </motion.a>
       </div>
   );
 } 
