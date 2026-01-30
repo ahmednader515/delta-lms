@@ -133,6 +133,7 @@ export const VideoForm = ({
                                     videoUrl={initialData.videoType === "UPLOAD" ? initialData.videoUrl : undefined}
                                     youtubeVideoId={initialData.videoType === "YOUTUBE" ? initialData.youtubeVideoId || undefined : undefined}
                                     videoType={(initialData.videoType as "UPLOAD" | "YOUTUBE") || "UPLOAD"}
+                                    chapterId={chapterId}
                                     className="w-full h-full"
                                 />
                             );

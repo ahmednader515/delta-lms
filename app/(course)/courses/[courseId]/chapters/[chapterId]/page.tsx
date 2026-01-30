@@ -287,6 +287,7 @@ const ChapterPage = () => {
                     videoUrl={chapter.videoType === "UPLOAD" ? chapter.videoUrl : undefined}
                     youtubeVideoId={chapter.videoType === "YOUTUBE" ? chapter.youtubeVideoId || undefined : undefined}
                     videoType={(chapter.videoType as "UPLOAD" | "YOUTUBE") || "UPLOAD"}
+                    chapterId={chapter.id}
                     className="w-full h-full"
                     onEnded={onEnd}
                     onTimeUpdate={(currentTime) => {

@@ -10,6 +10,7 @@ interface PlyrVideoPlayerProps {
   className?: string;
   onEnded?: () => void;
   onTimeUpdate?: (currentTime: number) => void;
+  chapterId?: string; // Required for YouTube proxy
 }
 
 export const PlyrVideoPlayer = ({
@@ -18,10 +19,12 @@ export const PlyrVideoPlayer = ({
   videoType = "UPLOAD",
   className,
   onEnded,
-  onTimeUpdate
+  onTimeUpdate,
+  chapterId
 }: PlyrVideoPlayerProps) => {
   const html5VideoRef = useRef<HTMLVideoElement>(null);
   const youtubeEmbedRef = useRef<HTMLDivElement>(null);
+  const proxyIframeRef = useRef<HTMLIFrameElement>(null);
   const playerRef = useRef<any>(null);
   const disableYoutubeOverlay = () => {
     if (videoType !== "YOUTUBE") return;
@@ -102,6 +105,43 @@ export const PlyrVideoPlayer = ({
     return (
       <div className={`aspect-video bg-muted rounded-lg flex items-center justify-center ${className || ""}`}>
         <div className="text-muted-foreground">لا يوجد فيديو</div>
+      </div>
+    );
+  }
+
+  // For YouTube videos, use proxy iframe to hide the URL
+  useEffect(() => {
+    if (videoType === "YOUTUBE" && chapterId && proxyIframeRef.current) {
+      const handleMessage = (event: MessageEvent) => {
+        // Verify message is from our proxy (same origin)
+        if (event.origin !== window.location.origin) return;
+        
+        if (event.data.type === "video-ended" && onEnded) {
+          onEnded();
+        } else if (event.data.type === "timeupdate" && onTimeUpdate) {
+          onTimeUpdate(event.data.currentTime);
+        }
+      };
+
+      window.addEventListener("message", handleMessage);
+      return () => {
+        window.removeEventListener("message", handleMessage);
+      };
+    }
+  }, [videoType, chapterId, onEnded, onTimeUpdate]);
+
+  if (videoType === "YOUTUBE" && chapterId) {
+    return (
+      <div className={`aspect-video ${className || ""}`}>
+        <iframe
+          ref={proxyIframeRef}
+          src={`/api/video/proxy/${chapterId}`}
+          className="w-full h-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-presentation allow-top-navigation"
+          title="Video Player"
+        />
       </div>
     );
   }
