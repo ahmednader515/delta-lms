@@ -104,18 +104,15 @@ export default function SignInPage() {
 
       toast.success(t("auth.errors.signInSuccess"));
       
-      // Get user data to determine role and redirect accordingly
-      const response = await fetch("/api/auth/session", { cache: "no-store" });
-      const sessionData = await response.json();
-      const userRole = sessionData?.user?.role || "USER";
-      const dashboardUrl = getDashboardUrlByRole(userRole);
-
-      // Force a full reload to ensure fresh session on the dashboard
-      const target = `${dashboardUrl}?t=${Date.now()}`;
+      // Redirect to main dashboard - the server-side redirect logic will handle role-based routing
+      // This ensures the session is fully established before redirecting
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Use window.location for a full page reload to ensure session cookies are set
       if (typeof window !== "undefined") {
-        window.location.replace(target);
+        window.location.href = "/dashboard";
       } else {
-        router.replace(target);
+        router.push("/dashboard");
       }
     } catch (error) {
       // Handle network errors or other unexpected errors

@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
                 phoneNumber: true,
                 parentPhoneNumber: true,
                 role: true,
+                grade: true,
                 balance: true,
                 createdAt: true,
                 updatedAt: true,

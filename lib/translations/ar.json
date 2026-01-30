@@ -1052,6 +1052,16 @@
       }
     }
   },
+  "user": {
+    "grade": {
+      "title": "تغيير الصف",
+      "description": "قم بتحديث صفك الدراسي",
+      "changeGrade": "تغيير الصف",
+      "saveChanges": "حفظ التغييرات",
+      "updateSuccess": "تم تحديث الصف بنجاح",
+      "updateError": "حدث خطأ أثناء تحديث الصف"
+    }
+  },
   "common": {
     "loading": "جاري التحميل...",
     "error": "خطأ",

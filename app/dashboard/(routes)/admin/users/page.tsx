@@ -46,6 +46,7 @@ interface User {
     phoneNumber: string;
     parentPhoneNumber: string;
     role: string;
+    grade: string | null;
     balance: number;
     createdAt: string;
     updatedAt: string;
@@ -61,6 +62,7 @@ interface EditUserData {
     phoneNumber: string;
     parentPhoneNumber: string;
     role: string;
+    grade?: string | null;
 }
 
 const UsersPage = () => {
@@ -73,7 +75,8 @@ const UsersPage = () => {
         fullName: "",
         phoneNumber: "",
         parentPhoneNumber: "",
-        role: ""
+        role: "",
+        grade: null
     });
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -97,13 +100,35 @@ const UsersPage = () => {
         }
     };
 
+    // Map Arabic grade to select value
+    const getGradeSelectValue = (arabicGrade: string | null | undefined): string | undefined => {
+        if (!arabicGrade) return undefined;
+        const gradeMap: Record<string, string> = {
+            "الصف الأول الثانوي": "9",
+            "الصف الثاني الثانوي": "10",
+            "الصف الثالث الثانوي": "11"
+        };
+        return gradeMap[arabicGrade] || undefined;
+    };
+
+    // Map select value to Arabic grade
+    const getArabicGrade = (selectValue: string): string => {
+        const gradeMap: Record<string, string> = {
+            "9": "الصف الأول الثانوي",
+            "10": "الصف الثاني الثانوي",
+            "11": "الصف الثالث الثانوي"
+        };
+        return gradeMap[selectValue] || selectValue;
+    };
+
     const handleEditUser = (user: User) => {
         setEditingUser(user);
         setEditData({
             fullName: user.fullName,
             phoneNumber: user.phoneNumber,
             parentPhoneNumber: user.parentPhoneNumber,
-            role: user.role
+            role: user.role,
+            grade: getGradeSelectValue(user.grade)
         });
         setIsEditDialogOpen(true);
     };
@@ -112,12 +137,18 @@ const UsersPage = () => {
         if (!editingUser) return;
 
         try {
+            // Convert grade select value to Arabic if it exists
+            const dataToSend = {
+                ...editData,
+                grade: editData.grade ? getArabicGrade(editData.grade) : null
+            };
+
             const response = await fetch(`/api/admin/users/${editingUser.id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(editData),
+                body: JSON.stringify(dataToSend),
             });
 
             if (response.ok) {
@@ -308,6 +339,26 @@ const UsersPage = () => {
                                                                     </SelectContent>
                                                                 </Select>
                                                             </div>
+                                                            {editData.role === "USER" && (
+                                                                <div className="grid grid-cols-4 items-center gap-4">
+                                                                    <Label htmlFor="grade" className="text-right">
+                                                                        {t("auth.grade")}
+                                                                    </Label>
+                                                                    <Select
+                                                                        value={editData.grade || undefined}
+                                                                        onValueChange={(value) => setEditData({...editData, grade: value})}
+                                                                    >
+                                                                        <SelectTrigger className="col-span-3">
+                                                                            <SelectValue placeholder={t("auth.selectGrade")} />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                            <SelectItem value="9">{t("auth.grade9")}</SelectItem>
+                                                                            <SelectItem value="10">{t("auth.grade10")}</SelectItem>
+                                                                            <SelectItem value="11">{t("auth.grade11")}</SelectItem>
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                         <DialogFooter>
                                                             <Button variant="outline" onClick={() => {
@@ -492,6 +543,26 @@ const UsersPage = () => {
                                                                     </SelectContent>
                                                                 </Select>
                                                             </div>
+                                                            {editData.role === "USER" && (
+                                                                <div className="grid grid-cols-4 items-center gap-4">
+                                                                    <Label htmlFor="grade" className="text-right">
+                                                                        {t("auth.grade")}
+                                                                    </Label>
+                                                                    <Select
+                                                                        value={editData.grade || undefined}
+                                                                        onValueChange={(value) => setEditData({...editData, grade: value})}
+                                                                    >
+                                                                        <SelectTrigger className="col-span-3">
+                                                                            <SelectValue placeholder={t("auth.selectGrade")} />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                            <SelectItem value="9">{t("auth.grade9")}</SelectItem>
+                                                                            <SelectItem value="10">{t("auth.grade10")}</SelectItem>
+                                                                            <SelectItem value="11">{t("auth.grade11")}</SelectItem>
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                         <DialogFooter>
                                                             <Button variant="outline" onClick={() => {

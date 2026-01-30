@@ -1052,6 +1052,16 @@
       }
     }
   },
+  "user": {
+    "grade": {
+      "title": "Change Grade",
+      "description": "Update your grade level",
+      "changeGrade": "Change Grade",
+      "saveChanges": "Save Changes",
+      "updateSuccess": "Grade updated successfully",
+      "updateError": "An error occurred while updating grade"
+    }
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",
