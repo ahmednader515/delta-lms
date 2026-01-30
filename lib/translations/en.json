@@ -60,7 +60,8 @@
       "accountCreationError": "An error occurred while creating the account",
       "signInSuccess": "Successfully signed in",
       "accountCreated": "Account created successfully",
-      "selectGradeError": "Please select your grade"
+      "selectGradeError": "Please select your grade",
+      "alreadyLoggedInOnAnotherDevice": "This account is already logged in on another device. Please logout from the other device first."
     }
   },
   "homepage": {

@@ -34,6 +34,7 @@ export const authOptions: AuthOptions = {
       credentials: {
         phoneNumber: { label: "Phone Number", type: "text" },
         password: { label: "Password", type: "password" },
+        deviceId: { label: "Device ID", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.phoneNumber || !credentials?.password) {
@@ -61,6 +62,19 @@ export const authOptions: AuthOptions = {
 
         if (!isPasswordValid) {
           throw new Error("INVALID_PASSWORD");
+        }
+
+        // Check if user is already logged in on another device
+        if (user.currentDeviceId && credentials.deviceId && user.currentDeviceId !== credentials.deviceId) {
+          throw new Error("ALREADY_LOGGED_IN_ON_ANOTHER_DEVICE");
+        }
+
+        // Update device ID after successful authentication
+        if (credentials.deviceId) {
+          await db.user.update({
+            where: { id: user.id },
+            data: { currentDeviceId: credentials.deviceId },
+          });
         }
 
         return {

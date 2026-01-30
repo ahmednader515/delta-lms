@@ -11,7 +11,7 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { Eye, EyeOff, ChevronLeft } from "lucide-react";
 import Image from "next/image";
-import { getDashboardUrlByRole } from "@/lib/utils";
+import { getDashboardUrlByRole, getDeviceId } from "@/lib/utils";
 import { useLanguage } from "@/lib/contexts/language-context";
 
 export default function SignInPage() {
@@ -44,6 +44,9 @@ export default function SignInPage() {
     }
 
     try {
+      // Get device ID for single-device login
+      const deviceId = getDeviceId();
+
       // First, validate credentials with our custom API to get specific error messages
       const validationResponse = await fetch("/api/auth/signin", {
         method: "POST",
@@ -53,6 +56,7 @@ export default function SignInPage() {
         body: JSON.stringify({
           phoneNumber: formData.phoneNumber.trim(),
           password: formData.password,
+          deviceId: deviceId,
         }),
       });
 
@@ -65,6 +69,7 @@ export default function SignInPage() {
           "INVALID_CREDENTIALS": t("auth.errors.invalidCredentials"),
           "NO_PASSWORD_SET": t("auth.errors.noPasswordSet"),
           "SERVER_ERROR": t("auth.errors.serverError"),
+          "ALREADY_LOGGED_IN_ON_ANOTHER_DEVICE": t("auth.errors.alreadyLoggedInOnAnotherDevice"),
         };
 
         const errorMessage = errorMessages[validationData.error] || t("auth.errors.invalidCredentials");
@@ -77,6 +82,7 @@ export default function SignInPage() {
       const result = await signIn("credentials", {
         phoneNumber: formData.phoneNumber.trim(),
         password: formData.password,
+        deviceId: deviceId,
         redirect: false,
       });
 
@@ -87,6 +93,7 @@ export default function SignInPage() {
           "Configuration": t("auth.errors.serverError"),
           "AccessDenied": t("auth.errors.accessDenied"),
           "Verification": t("auth.errors.verificationFailed"),
+          "ALREADY_LOGGED_IN_ON_ANOTHER_DEVICE": t("auth.errors.alreadyLoggedInOnAnotherDevice"),
         };
 
         const errorMessage = errorMessages[result.error] || t("auth.errors.invalidCredentials");

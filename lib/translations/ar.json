@@ -60,7 +60,8 @@
       "accountCreationError": "حدث خطأ أثناء إنشاء الحساب",
       "signInSuccess": "تم تسجيل الدخول بنجاح",
       "accountCreated": "تم إنشاء الحساب بنجاح",
-      "selectGradeError": "يرجى اختيار صفك الدراسي"
+      "selectGradeError": "يرجى اختيار صفك الدراسي",
+      "alreadyLoggedInOnAnotherDevice": "هذا الحساب مسجل دخول بالفعل على جهاز آخر. يرجى تسجيل الخروج من الجهاز الآخر أولاً."
     }
   },
   "homepage": {

@@ -150,3 +150,57 @@ export function getDashboardUrlByRole(role: string): string {
   console.log("🔍 Redirecting to dashboard URL:", dashboardUrl);
   return dashboardUrl;
 }
+
+/**
+ * Generate or retrieve a unique device ID for single-device login
+ * Stores the device ID in localStorage
+ * @returns A unique device ID string
+ */
+export function getDeviceId(): string {
+  if (typeof window === 'undefined') {
+    // Server-side: generate a temporary ID (shouldn't be used)
+    return `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  const STORAGE_KEY = 'device_id';
+  
+  // Try to get existing device ID from localStorage
+  let deviceId = localStorage.getItem(STORAGE_KEY);
+  
+  if (!deviceId) {
+    // Generate a new device ID using a combination of timestamp and random string
+    deviceId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${Math.random().toString(36).substr(2, 9)}`;
+    // Store it in localStorage
+    localStorage.setItem(STORAGE_KEY, deviceId);
+  }
+  
+  return deviceId;
+}
+
+/**
+ * Clear the device ID from localStorage (used on logout)
+ */
+export function clearDeviceId(): void {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('device_id');
+  }
+}
+
+/**
+ * Handle logout: clear device ID on server and client
+ * This should be called before NextAuth signOut
+ */
+export async function handleLogout(): Promise<void> {
+  try {
+    // Clear device ID on server
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+    });
+  } catch (error) {
+    console.error('Error clearing device ID on logout:', error);
+    // Continue with logout even if API call fails
+  }
+  
+  // Clear device ID from localStorage
+  clearDeviceId();
+}

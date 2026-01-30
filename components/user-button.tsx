@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
+import { handleLogout } from "@/lib/utils";
 
 export const UserButton = () => {
   const { data: session } = useSession();
@@ -16,6 +17,11 @@ export const UserButton = () => {
   if (!session?.user) {
     return null;
   }
+
+  const handleLogoutClick = async () => {
+    await handleLogout();
+    await signOut();
+  };
 
   return (
     <DropdownMenu>
@@ -29,7 +35,7 @@ export const UserButton = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem
-          onClick={() => signOut()}
+          onClick={handleLogoutClick}
           className="text-red-600 cursor-pointer"
         >
           <LogOut className="h-4 w-4 mr-2" />

@@ -8,14 +8,16 @@ import { UserButton } from "./user-button";
 import { useSession, signOut } from "next-auth/react";
 import { LoadingButton } from "@/components/ui/loading-button";
 import { useState } from "react";
+import { handleLogout } from "@/lib/utils";
 
 export const NavbarRoutes = () => {
     const { data: session } = useSession();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-    const handleLogout = async () => {
+    const handleLogoutClick = async () => {
         setIsLoggingOut(true);
         try {
+            await handleLogout();
             await signOut({ callbackUrl: "/" });
         } catch (error) {
             console.error("Logout error:", error);
@@ -31,7 +33,7 @@ export const NavbarRoutes = () => {
                 <LoadingButton 
                     size="sm" 
                     variant="ghost" 
-                    onClick={handleLogout}
+                    onClick={handleLogoutClick}
                     loading={isLoggingOut}
                     loadingText="جاري تسجيل الخروج..."
                     className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors duration-200 ease-in-out"

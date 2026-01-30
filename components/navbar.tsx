@@ -8,13 +8,15 @@ import { ScrollProgress } from "@/components/scroll-progress";
 import { LogOut } from "lucide-react";
 import { useLanguage } from "@/lib/contexts/language-context";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { handleLogout } from "@/lib/utils";
 
 export const Navbar = () => {
   const { data: session } = useSession();
   const { t } = useLanguage();
 
-  const handleLogout = () => {
-    signOut({ callbackUrl: "/" });
+  const handleLogoutClick = async () => {
+    await handleLogout();
+    await signOut({ callbackUrl: "/" });
   };
 
   return (
@@ -58,7 +60,7 @@ export const Navbar = () => {
                 <Button 
                   size="sm" 
                   variant="ghost" 
-                  onClick={handleLogout}
+                  onClick={handleLogoutClick}
                   className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors duration-200 ease-in-out"
                 >
                   <LogOut className="h-4 w-4 rtl:ml-2 ltr:mr-2"/>

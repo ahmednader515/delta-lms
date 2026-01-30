@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
-    const { phoneNumber, password } = await req.json();
+    const { phoneNumber, password, deviceId } = await req.json();
 
     // Validate input
     if (!phoneNumber || !password) {
@@ -46,6 +46,17 @@ export async function POST(req: Request) {
         { status: 401 }
       );
     }
+
+    // Check if user is already logged in on another device
+    if (user.currentDeviceId && user.currentDeviceId !== deviceId) {
+      return NextResponse.json(
+        { error: "ALREADY_LOGGED_IN_ON_ANOTHER_DEVICE" },
+        { status: 403 }
+      );
+    }
+
+    // Update device ID if provided (will be updated after successful NextAuth login)
+    // For now, we just validate - the actual update happens in NextAuth authorize callback
 
     // Return success (actual authentication will be handled by NextAuth)
     return NextResponse.json({ 
