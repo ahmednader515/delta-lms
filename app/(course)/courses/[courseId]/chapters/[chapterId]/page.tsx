@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight, CheckCircle2, Circle, Lock, FileText, Downlo
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { PlyrVideoPlayer } from "@/components/plyr-video-player";
+import { DevToolsBlocker } from "@/components/dev-tools-blocker";
 
 interface Chapter {
   id: string;
@@ -179,8 +180,14 @@ const ChapterPage = () => {
     fetchData();
   }, [routeParams.courseId, routeParams.chapterId]);
 
-  // Block dev tools and prevent inspection
+  // Block dev tools and prevent inspection (only in production)
   useEffect(() => {
+    // Skip all dev tools blocking in development mode
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    if (isDevelopment) {
+      return;
+    }
+
     // Disable right-click context menu
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault();
@@ -239,17 +246,18 @@ const ChapterPage = () => {
     };
 
     // Detect dev tools opening by checking window dimensions
-    // Note: This is not 100% reliable but makes it harder
+    let devToolsDetected = false;
     const checkDevTools = () => {
+      if (devToolsDetected) return;
+      
       const widthThreshold = window.outerWidth - window.innerWidth > 160;
       const heightThreshold = window.outerHeight - window.innerHeight > 160;
       
       if (widthThreshold || heightThreshold) {
-        // Clear console and log a warning instead of breaking the page
-        if (typeof console !== 'undefined') {
-          console.clear();
-          console.warn('Developer tools are disabled on this page.');
-        }
+        devToolsDetected = true;
+        // Redirect away from the page
+        alert('لا يمكن فتح أدوات المطور في هذه الصفحة');
+        window.location.href = '/dashboard/search';
       }
     };
 
@@ -259,6 +267,16 @@ const ChapterPage = () => {
         console.clear();
       }
     };
+
+    // Listen for devtools detection from iframe
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'devtools-detected' && !devToolsDetected) {
+        devToolsDetected = true;
+        alert('لا يمكن فتح أدوات المطور في هذه الصفحة');
+        window.location.href = '/dashboard/search';
+      }
+    };
+    window.addEventListener('message', handleMessage);
 
     // Disable text selection on video area
     const disableSelect = (e: Event) => {
@@ -274,7 +292,7 @@ const ChapterPage = () => {
     const devToolsInterval = setInterval(checkDevTools, 500);
     
     // Clear console periodically
-    const consoleInterval = setInterval(clearConsole, 1000);
+    const consoleInterval = setInterval(clearConsole, 500);
     
     // Disable text selection on video container
     const videoContainer = document.querySelector('.aspect-video');
@@ -289,6 +307,7 @@ const ChapterPage = () => {
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('message', handleMessage);
       clearInterval(devToolsInterval);
       clearInterval(consoleInterval);
       if (videoContainer) {
@@ -296,7 +315,7 @@ const ChapterPage = () => {
         videoContainer.removeEventListener('dragstart', disableSelect);
       }
     };
-  }, []);
+  }, [routeParams.courseId]);
 
   const toggleCompletion = async () => {
     try {
@@ -379,6 +398,11 @@ const ChapterPage = () => {
 
   return (
     <div className="h-full">
+      {/* Block developer tools */}
+      <DevToolsBlocker 
+        redirectUrl="/dashboard/search"
+        message="لا يمكن فتح أدوات المطور في هذه الصفحة"
+      />
       <div className="max-w-5xl mx-auto p-6">
         <div className="flex flex-col gap-8">
           {/* Course Progress */}

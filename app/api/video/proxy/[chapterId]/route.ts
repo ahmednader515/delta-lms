@@ -124,32 +124,98 @@ export async function GET(
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     <script>
         (function() {
-            // Block dev tools
-            (function() {
-                // Disable right-click
-                document.addEventListener('contextmenu', function(e) {
-                    e.preventDefault();
-                    return false;
-                });
-                
-                // Block keyboard shortcuts
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'F12' || 
-                        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
-                        (e.ctrlKey && ['u', 's', 'p'].includes(e.key.toLowerCase())) ||
-                        (e.ctrlKey && e.shiftKey && e.key === 'P')) {
+            // Dev tools blocking - only in production
+            const isProduction = ${process.env.NODE_ENV === 'production'};
+            
+            if (isProduction) {
+                (function() {
+                    let devToolsOpen = false;
+                    const threshold = 160;
+                    
+                    // Method 1: Window size detection
+                    function checkWindowSize() {
+                        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+                        return widthThreshold || heightThreshold;
+                    }
+                    
+                    // Method 2: Console detection via getter
+                    function detectViaConsole() {
+                        let opened = false;
+                        const element = new Image();
+                        Object.defineProperty(element, 'id', {
+                            get: function() {
+                                opened = true;
+                                return 'devtools';
+                            }
+                        });
+                        console.log(element);
+                        console.clear();
+                        return opened;
+                    }
+                    
+                    // Handle detection
+                    function onDevToolsOpen() {
+                        if (!devToolsOpen) {
+                            devToolsOpen = true;
+                            // Clear the page content
+                            document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#000;color:#fff;font-size:18px;text-align:center;direction:rtl;">لا يمكن فتح أدوات المطور<br>Developer tools are not allowed</div>';
+                            // Try to close the window or redirect parent
+                            try {
+                                if (window.parent) {
+                                    window.parent.postMessage({ type: 'devtools-detected' }, '*');
+                                }
+                            } catch(e) {}
+                        }
+                    }
+                    
+                    // Check periodically
+                    setInterval(function() {
+                        if (checkWindowSize() || detectViaConsole()) {
+                            onDevToolsOpen();
+                        }
+                    }, 500);
+                    
+                    // Disable right-click
+                    document.addEventListener('contextmenu', function(e) {
                         e.preventDefault();
                         return false;
-                    }
-                });
-                
-                // Clear console periodically
-                setInterval(function() {
-                    if (typeof console !== 'undefined') {
-                        console.clear();
-                    }
-                }, 1000);
-            })();
+                    }, true);
+                    
+                    // Block keyboard shortcuts
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'F12' || 
+                            (e.ctrlKey && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c'].includes(e.key)) ||
+                            (e.ctrlKey && ['u', 'U', 's', 'S', 'p', 'P'].includes(e.key)) ||
+                            (e.metaKey && e.altKey && ['i', 'I'].includes(e.key))) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            return false;
+                        }
+                    }, true);
+                    
+                    // Clear console aggressively
+                    setInterval(function() {
+                        try {
+                            console.clear();
+                            console.log = function(){};
+                            console.info = function(){};
+                            console.warn = function(){};
+                            console.error = function(){};
+                            console.debug = function(){};
+                            console.dir = function(){};
+                            console.table = function(){};
+                        } catch(e) {}
+                    }, 100);
+                    
+                    // Detect via resize
+                    window.addEventListener('resize', function() {
+                        if (checkWindowSize()) {
+                            onDevToolsOpen();
+                        }
+                    });
+                })();
+            }
             
             // Decode the obfuscated video ID
             const obf = '${obfuscated}';
