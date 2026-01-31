@@ -180,14 +180,8 @@ const ChapterPage = () => {
     fetchData();
   }, [routeParams.courseId, routeParams.chapterId]);
 
-  // Block dev tools and prevent inspection (only in production)
+  // Block dev tools and prevent inspection
   useEffect(() => {
-    // Skip all dev tools blocking in development mode
-    const isDevelopment = process.env.NODE_ENV === 'development';
-    if (isDevelopment) {
-      return;
-    }
-
     // Disable right-click context menu
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault();
@@ -245,22 +239,6 @@ const ChapterPage = () => {
       }
     };
 
-    // Detect dev tools opening by checking window dimensions
-    let devToolsDetected = false;
-    const checkDevTools = () => {
-      if (devToolsDetected) return;
-      
-      const widthThreshold = window.outerWidth - window.innerWidth > 160;
-      const heightThreshold = window.outerHeight - window.innerHeight > 160;
-      
-      if (widthThreshold || heightThreshold) {
-        devToolsDetected = true;
-        // Redirect away from the page
-        alert('لا يمكن فتح أدوات المطور في هذه الصفحة');
-        window.location.href = '/dashboard/search';
-      }
-    };
-
     // Clear console periodically
     const clearConsole = () => {
       if (typeof console !== 'undefined') {
@@ -268,12 +246,31 @@ const ChapterPage = () => {
       }
     };
 
-    // Listen for devtools detection from iframe
+    // Dev tools detection - only listen for messages from iframe
+    // Window size detection removed to avoid false positives
+    let devToolsDetected = false;
+    
+    function hideVideo() {
+      // Hide the video player container immediately
+      const videoContainer = document.querySelector('.aspect-video');
+      if (videoContainer) {
+        (videoContainer as HTMLElement).style.display = 'none';
+        // Also remove the iframe inside if it exists
+        const iframe = videoContainer.querySelector('iframe');
+        if (iframe) {
+          iframe.remove();
+        }
+      }
+    }
+    
+    // Listen for detection from iframe only
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === 'devtools-detected' && !devToolsDetected) {
         devToolsDetected = true;
+        // Hide video and show alert
+        hideVideo();
         alert('لا يمكن فتح أدوات المطور في هذه الصفحة');
-        window.location.href = '/dashboard/search';
+        window.location.href = '/dashboard';
       }
     };
     window.addEventListener('message', handleMessage);
@@ -288,11 +285,8 @@ const ChapterPage = () => {
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('keydown', handleKeyDown);
     
-    // Check for dev tools periodically
-    const devToolsInterval = setInterval(checkDevTools, 500);
-    
     // Clear console periodically
-    const consoleInterval = setInterval(clearConsole, 500);
+    const consoleInterval = setInterval(clearConsole, 1000);
     
     // Disable text selection on video container
     const videoContainer = document.querySelector('.aspect-video');
@@ -308,14 +302,13 @@ const ChapterPage = () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('message', handleMessage);
-      clearInterval(devToolsInterval);
       clearInterval(consoleInterval);
       if (videoContainer) {
         videoContainer.removeEventListener('selectstart', disableSelect);
         videoContainer.removeEventListener('dragstart', disableSelect);
       }
     };
-  }, [routeParams.courseId]);
+  }, []);
 
   const toggleCompletion = async () => {
     try {
@@ -398,11 +391,8 @@ const ChapterPage = () => {
 
   return (
     <div className="h-full">
-      {/* Block developer tools */}
-      <DevToolsBlocker 
-        redirectUrl="/dashboard/search"
-        message="لا يمكن فتح أدوات المطور في هذه الصفحة"
-      />
+      {/* Block developer tools keyboard shortcuts and right-click */}
+      <DevToolsBlocker />
       <div className="max-w-5xl mx-auto p-6">
         <div className="flex flex-col gap-8">
           {/* Course Progress */}
@@ -416,32 +406,23 @@ const ChapterPage = () => {
 
           {/* Video Player Section */}
           <div className="aspect-video relative bg-black rounded-lg overflow-hidden">
-            {chapter.videoUrl ? (
-              (() => {
-                console.log("🔍 Rendering PlyrVideoPlayer with props:", {
-                  videoUrl: chapter.videoType === "UPLOAD" ? chapter.videoUrl : undefined,
-                  youtubeVideoId: chapter.videoType === "YOUTUBE" ? chapter.youtubeVideoId || undefined : undefined,
-                  videoType: (chapter.videoType as "UPLOAD" | "YOUTUBE") || "UPLOAD",
-                  key: `${chapter.id}-${chapter.videoUrl}-${chapter.videoType}`
-                });
-                return (
-                  <PlyrVideoPlayer
-                    key={`${chapter.id}-${chapter.videoUrl}-${chapter.videoType}`}
-                    videoUrl={chapter.videoType === "UPLOAD" ? chapter.videoUrl : undefined}
-                    youtubeVideoId={chapter.videoType === "YOUTUBE" ? chapter.youtubeVideoId || undefined : undefined}
-                    videoType={(chapter.videoType as "UPLOAD" | "YOUTUBE") || "UPLOAD"}
-                    chapterId={chapter.id}
-                    className="w-full h-full"
-                    onEnded={onEnd}
-                    onTimeUpdate={(currentTime) => {
-                      // Only log in development
-                      if (process.env.NODE_ENV === 'development') {
-                        console.log("🔍 Video time update:", currentTime);
-                      }
-                    }}
-                  />
-                );
-              })()
+            {chapter.videoType ? (
+              <PlyrVideoPlayer
+                key={`${chapter.id}-${chapter.videoType}`}
+                // Don't pass videoUrl when chapterId is available - it will be fetched via proxy
+                videoUrl={undefined}
+                youtubeVideoId={undefined}
+                videoType={(chapter.videoType as "UPLOAD" | "YOUTUBE")}
+                chapterId={chapter.id}
+                className="w-full h-full"
+                onEnded={onEnd}
+                onTimeUpdate={(currentTime) => {
+                  // Only log in development
+                  if (process.env.NODE_ENV === 'development') {
+                    console.log("🔍 Video time update:", currentTime);
+                  }
+                }}
+              />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-white">
                 لا يوجد فيديو متاح

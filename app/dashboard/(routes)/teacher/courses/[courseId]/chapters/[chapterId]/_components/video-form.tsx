@@ -46,6 +46,7 @@ export const VideoForm = ({
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include', // Include cookies for authentication
                 body: JSON.stringify({ url }),
             });
 
@@ -77,6 +78,7 @@ export const VideoForm = ({
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include', // Include cookies for authentication
                 body: JSON.stringify({ youtubeUrl }),
             });
 
@@ -130,8 +132,9 @@ export const VideoForm = ({
                             });
                             return (
                                 <PlyrVideoPlayer
-                                    videoUrl={initialData.videoType === "UPLOAD" ? initialData.videoUrl : undefined}
-                                    youtubeVideoId={initialData.videoType === "YOUTUBE" ? initialData.youtubeVideoId || undefined : undefined}
+                                    // Don't pass videoUrl when chapterId is available - it will be fetched via proxy
+                                    videoUrl={undefined}
+                                    youtubeVideoId={undefined}
                                     videoType={(initialData.videoType as "UPLOAD" | "YOUTUBE") || "UPLOAD"}
                                     chapterId={chapterId}
                                     className="w-full h-full"

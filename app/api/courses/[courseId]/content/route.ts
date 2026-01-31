@@ -14,7 +14,18 @@ export async function GET(
                 courseId: resolvedParams.courseId,
                 isPublished: true
             },
-            include: {
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                isFree: true,
+                videoType: true,
+                youtubeVideoId: true,
+                // Don't include videoUrl - it will be fetched via proxy
+                documentUrl: true,
+                documentName: true,
+                position: true,
+                isPublished: true,
                 userProgress: {
                     select: {
                         isCompleted: true
