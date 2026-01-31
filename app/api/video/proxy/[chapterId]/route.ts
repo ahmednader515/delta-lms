@@ -64,8 +64,16 @@ export async function GET(
       return new NextResponse("Invalid video type", { status: 400 });
     }
 
+    // Obfuscate the YouTube video ID using a simple character shift + base64
+    // This makes it harder to extract from the HTML source
+    const obfuscated = Buffer.from(
+      chapter.youtubeVideoId.split('').map((c, i) => 
+        String.fromCharCode(c.charCodeAt(0) + (i % 10) + 1)
+      ).join('')
+    ).toString('base64');
+    
     // Return HTML page with Plyr initialized for YouTube video
-    // The YouTube video ID is hidden and only used server-side
+    // The YouTube video ID is obfuscated and dynamically decoded
     const html = `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -93,21 +101,70 @@ export async function GET(
             pointer-events: none;
             user-select: none;
         }
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
     <div id="player-container">
-        <div 
-            id="plyr-player"
-            data-plyr-provider="youtube"
-            data-plyr-embed-id="${chapter.youtubeVideoId}"
-        ></div>
+        <div id="plyr-player"></div>
     </div>
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     <script>
         (function() {
+            // Block dev tools
+            (function() {
+                // Disable right-click
+                document.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                    return false;
+                });
+                
+                // Block keyboard shortcuts
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'F12' || 
+                        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
+                        (e.ctrlKey && ['u', 's', 'p'].includes(e.key.toLowerCase())) ||
+                        (e.ctrlKey && e.shiftKey && e.key === 'P')) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+                
+                // Clear console periodically
+                setInterval(function() {
+                    if (typeof console !== 'undefined') {
+                        console.clear();
+                    }
+                }, 1000);
+            })();
+            
+            // Decode the obfuscated video ID
+            const obf = '${obfuscated}';
+            const decoded = atob(obf);
+            const videoId = decoded.split('').map((c, i) => 
+                String.fromCharCode(c.charCodeAt(0) - (i % 10) - 1)
+            ).join('');
+            
             const container = document.getElementById('plyr-player');
             if (!container) return;
+            
+            // Set the data attributes dynamically (not in HTML source)
+            // This way the video ID is never in the static HTML
+            container.setAttribute('data-plyr-provider', 'youtube');
+            container.setAttribute('data-plyr-embed-id', videoId);
             
             const player = new Plyr(container, {
                 controls: [
@@ -150,7 +207,6 @@ export async function GET(
                     iframe.setAttribute('tabindex', '-1');
                 }
             }
-            
             
             // Wait for YouTube player to be ready
             player.on('ready', () => {

@@ -179,6 +179,125 @@ const ChapterPage = () => {
     fetchData();
   }, [routeParams.courseId, routeParams.chapterId]);
 
+  // Block dev tools and prevent inspection
+  useEffect(() => {
+    // Disable right-click context menu
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+      return false;
+    };
+
+    // Block keyboard shortcuts for dev tools
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // F12 - Dev Tools
+      if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+Shift+I - Dev Tools
+      if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+Shift+J - Console
+      if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+Shift+C - Element Inspector
+      if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+U - View Source
+      if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+S - Save Page
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+P - Print (can reveal page structure)
+      if (e.ctrlKey && e.key === 'p') {
+        e.preventDefault();
+        return false;
+      }
+      
+      // Ctrl+Shift+P - Command Palette (Chrome)
+      if (e.ctrlKey && e.shiftKey && e.key === 'P') {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    // Detect dev tools opening by checking window dimensions
+    // Note: This is not 100% reliable but makes it harder
+    const checkDevTools = () => {
+      const widthThreshold = window.outerWidth - window.innerWidth > 160;
+      const heightThreshold = window.outerHeight - window.innerHeight > 160;
+      
+      if (widthThreshold || heightThreshold) {
+        // Clear console and log a warning instead of breaking the page
+        if (typeof console !== 'undefined') {
+          console.clear();
+          console.warn('Developer tools are disabled on this page.');
+        }
+      }
+    };
+
+    // Clear console periodically
+    const clearConsole = () => {
+      if (typeof console !== 'undefined') {
+        console.clear();
+      }
+    };
+
+    // Disable text selection on video area
+    const disableSelect = (e: Event) => {
+      e.preventDefault();
+      return false;
+    };
+
+    // Add event listeners
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+    
+    // Check for dev tools periodically
+    const devToolsInterval = setInterval(checkDevTools, 500);
+    
+    // Clear console periodically
+    const consoleInterval = setInterval(clearConsole, 1000);
+    
+    // Disable text selection on video container
+    const videoContainer = document.querySelector('.aspect-video');
+    if (videoContainer) {
+      videoContainer.addEventListener('selectstart', disableSelect);
+      videoContainer.addEventListener('dragstart', disableSelect);
+      (videoContainer as HTMLElement).style.userSelect = 'none';
+      (videoContainer as HTMLElement).style.webkitUserSelect = 'none';
+    }
+
+    // Cleanup
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+      clearInterval(devToolsInterval);
+      clearInterval(consoleInterval);
+      if (videoContainer) {
+        videoContainer.removeEventListener('selectstart', disableSelect);
+        videoContainer.removeEventListener('dragstart', disableSelect);
+      }
+    };
+  }, []);
+
   const toggleCompletion = async () => {
     try {
       if (isCompleted) {

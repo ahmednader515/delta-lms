@@ -38,7 +38,13 @@ export const PlyrVideoPlayer = ({
   };
 
   // Initialize Plyr on mount/update and destroy on unmount
+  // Skip Plyr initialization for YouTube videos when using proxy (chapterId provided)
   useEffect(() => {
+    // Don't initialize Plyr if we're using the proxy for YouTube videos
+    if (videoType === "YOUTUBE" && chapterId) {
+      return;
+    }
+
     let isCancelled = false;
 
     async function setupPlayer() {
@@ -97,7 +103,7 @@ export const PlyrVideoPlayer = ({
       }
       playerRef.current = null;
     };
-  }, [videoUrl, youtubeVideoId, videoType, onEnded, onTimeUpdate]);
+  }, [videoUrl, youtubeVideoId, videoType, chapterId, onEnded, onTimeUpdate]);
 
   const hasVideo = (videoType === "YOUTUBE" && !!youtubeVideoId) || !!videoUrl;
 
@@ -130,6 +136,7 @@ export const PlyrVideoPlayer = ({
     }
   }, [videoType, chapterId, onEnded, onTimeUpdate]);
 
+  // For YouTube videos, always use proxy if chapterId is provided to hide the URL
   if (videoType === "YOUTUBE" && chapterId) {
     return (
       <div className={`aspect-video ${className || ""}`}>
