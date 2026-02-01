@@ -1,0 +1,36 @@
+/* Hide Google Drive pop-out button and other controls */
+.google-drive-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.google-drive-container iframe {
+  position: relative;
+}
+
+/* Overlay to block pop-out button area (top-right corner) */
+.google-drive-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 40px;
+  background: transparent;
+  z-index: 10;
+  pointer-events: auto;
+  cursor: default;
+}
+
+/* Additional overlay for any other control areas if needed */
+.google-drive-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: transparent;
+  z-index: 10;
+  pointer-events: auto;
+  cursor: default;
+}
+

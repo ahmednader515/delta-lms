@@ -16,7 +16,7 @@ interface Chapter {
   description: string | null;
   isFree: boolean;
   videoUrl: string | null;
-  videoType: "UPLOAD" | "YOUTUBE" | null;
+  videoType: "YOUTUBE" | "GOOGLE_DRIVE" | null;
   youtubeVideoId: string | null;
   documentUrl: string | null;
   documentName: string | null;
@@ -412,7 +412,7 @@ const ChapterPage = () => {
                 // Don't pass videoUrl when chapterId is available - it will be fetched via proxy
                 videoUrl={undefined}
                 youtubeVideoId={undefined}
-                videoType={(chapter.videoType as "UPLOAD" | "YOUTUBE")}
+                videoType={(chapter.videoType as "YOUTUBE" | "GOOGLE_DRIVE")}
                 chapterId={chapter.id}
                 className="w-full h-full"
                 onEnded={onEnd}

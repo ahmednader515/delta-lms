@@ -71,8 +71,9 @@ model Chapter {
   title String @db.Text
   description String? @db.Text
   videoUrl String? @db.Text
-  videoType String? @default("UPLOAD") // "UPLOAD" or "YOUTUBE"
-  youtubeVideoId String? // Store YouTube video ID
+  videoType String? @default("UPLOAD") // "UPLOAD", "YOUTUBE", or "GOOGLE_DRIVE"
+  youtubeVideoId String? // Store YouTube video ID (legacy)
+  googleDriveFileId String? // Store Google Drive file ID
   documentUrl String? @db.Text // Store document URL (legacy - for backward compatibility)
   documentName String? // Store original document filename (legacy - for backward compatibility)
   position Int

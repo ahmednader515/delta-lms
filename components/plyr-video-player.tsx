@@ -2,34 +2,38 @@
 
 import { useEffect, useRef, useState } from "react";
 import "plyr/dist/plyr.css";
+import "./google-drive-player.css";
 
 interface PlyrVideoPlayerProps {
   videoUrl?: string;
   youtubeVideoId?: string;
-  videoType?: "UPLOAD" | "YOUTUBE";
+  googleDriveFileId?: string; // Google Drive file ID (for non-secure use cases)
+  videoType?: "YOUTUBE" | "GOOGLE_DRIVE";
   className?: string;
   onEnded?: () => void;
   onTimeUpdate?: (currentTime: number) => void;
-  chapterId?: string; // Required for YouTube proxy
+  chapterId?: string; // Required for secure video fetching
 }
 
 export const PlyrVideoPlayer = ({
   videoUrl,
   youtubeVideoId,
-  videoType = "UPLOAD",
+  googleDriveFileId: propGoogleDriveFileId,
+  videoType = "GOOGLE_DRIVE",
   className,
   onEnded,
   onTimeUpdate,
   chapterId
 }: PlyrVideoPlayerProps) => {
-  const html5VideoRef = useRef<HTMLVideoElement>(null);
   const youtubeEmbedRef = useRef<HTMLDivElement>(null);
+  const googleDriveIframeRef = useRef<HTMLIFrameElement>(null);
   const proxyIframeRef = useRef<HTMLIFrameElement>(null);
   const playerRef = useRef<any>(null);
-  const [proxyVideoUrl, setProxyVideoUrl] = useState<string | null>(null);
-  // Initialize loading state to true if we need to fetch the URL
+  const [googleDriveFileId, setGoogleDriveFileId] = useState<string | null>(null);
+  const [googleDriveSrcDoc, setGoogleDriveSrcDoc] = useState<string | null>(null);
+  // Initialize loading state to true if we need to fetch the URL/ID
   const [isLoadingUrl, setIsLoadingUrl] = useState(
-    videoType === "UPLOAD" && chapterId ? true : false
+    videoType === "GOOGLE_DRIVE" && chapterId ? true : false
   );
   const disableYoutubeOverlay = () => {
     if (videoType !== "YOUTUBE") return;
@@ -42,13 +46,12 @@ export const PlyrVideoPlayer = ({
     }
   };
 
-  // Fetch video URL from server if using proxy for uploaded videos
+  // Fetch Google Drive file ID from server
   useEffect(() => {
-    // Only fetch if we haven't already fetched the URL
-    if (videoType === "UPLOAD" && chapterId && !proxyVideoUrl) {
+    if (videoType === "GOOGLE_DRIVE" && chapterId && !googleDriveFileId) {
       setIsLoadingUrl(true);
       
-      fetch(`/api/video/get-url/${chapterId}`, {
+      fetch(`/api/video/get-google-drive/${chapterId}`, {
         credentials: 'include',
         headers: {
           'Accept': 'application/json',
@@ -57,52 +60,296 @@ export const PlyrVideoPlayer = ({
       .then(async response => {
         if (!response.ok) {
           const errorText = await response.text();
-          console.error('[VIDEO_PLAYER] Failed to fetch video URL:', response.status, errorText);
-          // If 404, the chapter might not have a video - that's okay
+          console.error('[VIDEO_PLAYER] Failed to fetch Google Drive file ID:', response.status, errorText);
           if (response.status === 404) {
-            console.warn('[VIDEO_PLAYER] Chapter does not have an uploaded video');
+            console.warn('[VIDEO_PLAYER] Chapter does not have a Google Drive video');
             return null;
           }
-          throw new Error(`Failed to fetch video URL: ${response.status} ${errorText}`);
+          throw new Error(`Failed to fetch Google Drive file ID: ${response.status} ${errorText}`);
         }
         return response.json();
       })
       .then(data => {
-        if (data && data.u) {
-          // Use proxy route instead of direct URL
-          setProxyVideoUrl(`/api/video/proxy-upload/${chapterId}`);
+        if (data && data.f) {
+          setGoogleDriveFileId(data.f);
+          
+          // Generate srcDoc HTML with video URL embedded as a variable
+          const fileId = data.f;
+          const baseUrl = 'https://drive.google.com/file/d/';
+          const previewPath = '/preview';
+          const driveUrl = baseUrl + fileId + previewPath;
+          
+          // Encode the URL using base64 to hide it in the HTML source
+          const encodedUrl = btoa(driveUrl);
+          
+          // Create HTML with iframe src set directly but encoded, then immediately override
+          const srcDoc = `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+        #player-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        #google-drive-iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            pointer-events: auto;
+        }
+        #overlay-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: transparent;
+            z-index: 9999;
+            pointer-events: auto;
+            cursor: default;
+        }
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="player-container">
+        <iframe id="google-drive-iframe" allow="autoplay; fullscreen" title="Google Drive Video Player"></iframe>
+        <div id="overlay-top"></div>
+    </div>
+    <script>
+        (function() {
+            var iframe = document.getElementById('google-drive-iframe');
+            if (iframe) {
+                // Decode the URL
+                var encodedUrl = '${encodedUrl}';
+                var videoUrl = atob(encodedUrl);
+                
+                // Apply property overrides BEFORE setting src
+                // This way the src property is set but hidden from DevTools
+                try {
+                    var originalGetAttribute = iframe.getAttribute.bind(iframe);
+                    var originalGetAttributeNS = iframe.getAttributeNS ? iframe.getAttributeNS.bind(iframe) : null;
+                    var originalHasAttribute = iframe.hasAttribute ? iframe.hasAttribute.bind(iframe) : null;
+                    
+                    // Override getAttribute to hide src
+                    Object.defineProperty(iframe, 'getAttribute', {
+                        value: function(name) {
+                            if (name === 'src') return '';
+                            return originalGetAttribute(name);
+                        },
+                        writable: false,
+                        configurable: true
+                    });
+                    
+                    // Override getAttributeNS
+                    if (originalGetAttributeNS) {
+                        Object.defineProperty(iframe, 'getAttributeNS', {
+                            value: function(ns, name) {
+                                if (name === 'src') return '';
+                                return originalGetAttributeNS(ns, name);
+                            },
+                            writable: false,
+                            configurable: true
+                        });
+                    }
+                    
+                    // Override hasAttribute
+                    if (originalHasAttribute) {
+                        Object.defineProperty(iframe, 'hasAttribute', {
+                            value: function(name) {
+                                if (name === 'src') return false;
+                                return originalHasAttribute(name);
+                            },
+                            writable: false,
+                            configurable: true
+                        });
+                    }
+                    
+                    // Override src property - hide getter but allow setter
+                    var descriptor = Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype, 'src');
+                    if (descriptor && descriptor.set) {
+                        var originalSetter = descriptor.set;
+                        Object.defineProperty(iframe, 'src', {
+                            get: function() { return ''; },
+                            set: function(value) { 
+                                originalSetter.call(this, value);
+                            },
+                            configurable: true,
+                            enumerable: false
+                        });
+                    }
+                    
+                    // Override attributes collection
+                    try {
+                        var attrs = iframe.attributes;
+                        if (attrs && attrs.getNamedItem) {
+                            var origGetNamedItem = attrs.getNamedItem.bind(attrs);
+                            Object.defineProperty(attrs, 'getNamedItem', {
+                                value: function(name) {
+                                    if (name === 'src') return null;
+                                    return origGetNamedItem(name);
+                                },
+                                writable: false,
+                                configurable: true
+                            });
+                        }
+                    } catch (e) {}
+                } catch (e) {
+                    // Continue if overrides fail
+                }
+                
+                // Now set src as a PROPERTY (not attribute) - this won't show in DevTools
+                // The property overrides will hide it from inspection
+                iframe.src = videoUrl;
+                
+                // Use MutationObserver to continuously remove src attribute if it appears
+                // But keep the property set so video keeps playing
+                try {
+                    var observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if (mutation.type === 'attributes' && mutation.attributeName === 'src') {
+                                // Don't remove it, just let the overrides hide it
+                                // Removing would break the video
+                            }
+                        });
+                    });
+                    
+                    observer.observe(iframe, {
+                        attributes: true,
+                        attributeFilter: ['src']
+                    });
+                } catch (e) {
+                    // Ignore if MutationObserver fails
+                }
+            }
+            
+            // Dev tools blocking
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            }, true);
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c'].includes(e.key)) ||
+                    (e.ctrlKey && ['u', 'U', 's', 'S', 'p', 'P'].includes(e.key)) ||
+                    (e.metaKey && e.altKey && ['i', 'I'].includes(e.key))) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            }, true);
+            
+            // Block clicks on overlay
+            var overlay = document.getElementById('overlay-top');
+            if (overlay) {
+                overlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }, true);
+                overlay.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }, true);
+                overlay.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }, true);
+            }
+        })();
+    </script>
+</body>
+</html>`;
+          
+          setGoogleDriveSrcDoc(srcDoc);
         } else {
-          console.warn('[VIDEO_PLAYER] No video URL in response:', data);
+          console.warn('[VIDEO_PLAYER] No Google Drive file ID in response:', data);
         }
       })
       .catch(error => {
-        console.error('[VIDEO_PLAYER] Error fetching video URL:', error);
-        // Don't throw - just log the error, video won't load
+        console.error('[VIDEO_PLAYER] Error fetching Google Drive file ID:', error);
       })
       .finally(() => {
         setIsLoadingUrl(false);
       });
     }
-  }, [videoType, chapterId, proxyVideoUrl]);
+  }, [videoType, chapterId, googleDriveFileId]);
+
+  // Set Google Drive iframe src dynamically to avoid it appearing in HTML source
+  // Only for non-proxy cases (when chapterId is not provided)
+  useEffect(() => {
+    if (videoType === "GOOGLE_DRIVE" && !chapterId && googleDriveIframeRef.current && propGoogleDriveFileId) {
+      // Set src dynamically via JavaScript, not in HTML
+      googleDriveIframeRef.current.src = `https://drive.google.com/file/d/${propGoogleDriveFileId}/preview`;
+      
+      // Try to override getAttribute to hide src from dev tools
+      try {
+        const iframe = googleDriveIframeRef.current;
+        const originalGetAttribute = iframe.getAttribute.bind(iframe);
+        Object.defineProperty(iframe, 'getAttribute', {
+          value: function(name: string) {
+            if (name === 'src') {
+              return ''; // Return empty when trying to get src attribute
+            }
+            return originalGetAttribute(name);
+          },
+          writable: false,
+          configurable: true
+        });
+      } catch (e) {
+        // If we can't override, that's okay
+      }
+    }
+  }, [videoType, chapterId, propGoogleDriveFileId]);
 
   // Initialize Plyr on mount/update and destroy on unmount
-  // Skip Plyr initialization for YouTube videos when using proxy (chapterId provided)
+  // Skip Plyr initialization for YouTube and Google Drive videos when using proxy (chapterId provided)
   useEffect(() => {
     // Don't initialize Plyr if we're using the proxy for YouTube videos
     if (videoType === "YOUTUBE" && chapterId) {
       return;
     }
     
-    // Don't initialize if we're waiting for proxy URL for uploaded videos
-    if (videoType === "UPLOAD" && chapterId && !proxyVideoUrl) {
+    // Don't initialize Plyr for Google Drive videos (they use iframe)
+    if (videoType === "GOOGLE_DRIVE") {
       return;
     }
-
+    
     let isCancelled = false;
 
     async function setupPlayer() {
-      const targetEl =
-        videoType === "YOUTUBE" ? youtubeEmbedRef.current : html5VideoRef.current;
+      const targetEl = youtubeEmbedRef.current;
       if (!targetEl) return;
 
       // Dynamically import Plyr to be SSR-safe
@@ -156,7 +403,7 @@ export const PlyrVideoPlayer = ({
       }
       playerRef.current = null;
     };
-  }, [videoUrl, youtubeVideoId, videoType, chapterId, onEnded, onTimeUpdate, proxyVideoUrl]);
+  }, [youtubeVideoId, videoType, chapterId, onEnded, onTimeUpdate]);
 
   // For YouTube videos, use proxy iframe to hide the URL
   // This hook must be called before any conditional returns
@@ -198,64 +445,122 @@ export const PlyrVideoPlayer = ({
     );
   }
 
-  // For uploaded videos with chapterId, show loading state while fetching
-  if (videoType === "UPLOAD" && chapterId && isLoadingUrl) {
+  // For Google Drive videos, use srcDoc to hide the URL from parent page Elements tab
+  if (videoType === "GOOGLE_DRIVE" && chapterId) {
+    if (isLoadingUrl) {
+      return (
+        <div className={`aspect-video bg-muted rounded-lg flex items-center justify-center ${className || ""}`}>
+          <div className="text-muted-foreground">جاري تحميل الفيديو...</div>
+        </div>
+      );
+    }
+
+    if (!googleDriveSrcDoc) {
+      return (
+        <div className={`aspect-video bg-muted rounded-lg flex items-center justify-center ${className || ""}`}>
+          <div className="text-muted-foreground">لا يوجد فيديو</div>
+        </div>
+      );
+    }
+
     return (
-      <div className={`aspect-video bg-muted rounded-lg flex items-center justify-center ${className || ""}`}>
-        <div className="text-muted-foreground">جاري تحميل الفيديو...</div>
+      <div className={`aspect-video ${className || ""}`}>
+        <iframe
+          ref={googleDriveIframeRef}
+          srcDoc={googleDriveSrcDoc}
+          className="w-full h-full border-0"
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          title="Google Drive Video Player"
+          style={{ width: '100%', height: '100%' }}
+        />
       </div>
     );
   }
 
-  // For uploaded videos with chapterId, check if we have the proxy URL
-  // For backward compatibility, also check direct videoUrl
-  const hasVideo = (videoType === "YOUTUBE" && !!youtubeVideoId) || 
-                   (videoType === "UPLOAD" && chapterId && (proxyVideoUrl || videoUrl)) ||
-                   (videoType === "UPLOAD" && !chapterId && !!videoUrl);
+  // For Google Drive videos without chapterId (backward compatibility)
+  if (videoType === "GOOGLE_DRIVE" && !chapterId) {
+    const fileId = propGoogleDriveFileId;
+    if (!fileId) {
+      return (
+        <div className={`aspect-video bg-muted rounded-lg flex items-center justify-center ${className || ""}`}>
+          <div className="text-muted-foreground">لا يوجد فيديو</div>
+        </div>
+      );
+    }
 
-  // For uploaded videos with chapterId, render video element even if proxy URL is not yet set
-  // This allows Plyr to initialize and the source will be added once the proxy URL is fetched
-  if (videoType === "UPLOAD" && chapterId && !proxyVideoUrl && !isLoadingUrl && !videoUrl) {
     return (
-      <div className={`aspect-video bg-muted rounded-lg flex items-center justify-center ${className || ""}`}>
-        <div className="text-muted-foreground">لا يوجد فيديو</div>
+      <div className={`aspect-video google-drive-container ${className || ""}`} style={{ position: 'relative' }}>
+        {/* Iframe without src attribute - will be set dynamically via JavaScript */}
+        <iframe
+          ref={googleDriveIframeRef}
+          className="w-full h-full border-0"
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          title="Google Drive Video Player"
+          style={{
+            pointerEvents: 'auto',
+          }}
+        />
+        {/* Invisible overlay covering the entire top section to block pop-out button and other controls */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '80px', // Covers the top section where pop-out button and controls are
+            background: 'transparent',
+            zIndex: 9999,
+            pointerEvents: 'auto',
+            cursor: 'default',
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }}
+          onMouseUp={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }}
+          onMouseMove={(e) => {
+            e.stopPropagation();
+          }}
+        />
       </div>
     );
   }
 
-  if (!hasVideo && videoType !== "UPLOAD") {
+  // For YouTube videos without chapterId (backward compatibility)
+  if (videoType === "YOUTUBE" && youtubeVideoId && !chapterId) {
     return (
-      <div className={`aspect-video bg-muted rounded-lg flex items-center justify-center ${className || ""}`}>
-        <div className="text-muted-foreground">لا يوجد فيديو</div>
-      </div>
-    );
-  }
-
-  return (
-    <div className={`aspect-video ${className || ""}`}>
-      {videoType === "YOUTUBE" && youtubeVideoId ? (
+      <div className={`aspect-video ${className || ""}`}>
         <div
           ref={youtubeEmbedRef}
           data-plyr-provider="youtube"
           data-plyr-embed-id={youtubeVideoId}
           className="w-full h-full"
         />
-      ) : (
-        <video 
-          key={proxyVideoUrl || videoUrl || 'video'} 
-          ref={html5VideoRef} 
-          className="w-full h-full" 
-          playsInline 
-          crossOrigin="anonymous"
-        >
-          {/* Use proxy URL if available (when chapterId is provided), otherwise fallback to direct URL */}
-          {chapterId && proxyVideoUrl ? (
-            <source src={proxyVideoUrl} type="video/mp4" />
-          ) : videoUrl ? (
-            <source src={videoUrl} type="video/mp4" />
-          ) : null}
-        </video>
-      )}
+      </div>
+    );
+  }
+
+  // No video available
+  return (
+    <div className={`aspect-video bg-muted rounded-lg flex items-center justify-center ${className || ""}`}>
+      <div className="text-muted-foreground">لا يوجد فيديو</div>
     </div>
   );
 };

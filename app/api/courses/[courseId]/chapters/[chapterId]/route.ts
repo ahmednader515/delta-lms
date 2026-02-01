@@ -28,6 +28,7 @@ export async function GET(
         isFree: true,
         videoType: true,
         youtubeVideoId: true,
+        googleDriveFileId: true,
         // Don't include videoUrl - it will be fetched via proxy
         documentUrl: true,
         documentName: true,

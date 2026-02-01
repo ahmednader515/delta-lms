@@ -22,7 +22,17 @@ export default async function ChapterPage({
             id: chapterId,
             courseId: courseId
         },
-        include: {
+        select: {
+            id: true,
+            title: true,
+            description: true,
+            videoUrl: true,
+            videoType: true,
+            youtubeVideoId: true,
+            googleDriveFileId: true,
+            isFree: true,
+            isPublished: true,
+            position: true,
             attachments: {
                 orderBy: {
                     position: 'asc',
