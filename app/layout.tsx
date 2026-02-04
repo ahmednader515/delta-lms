@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { NavigationLoading } from "@/components/navigation-loading";
 import { Suspense } from "react";
 import { theme } from "@/lib/theme";
+import { DevToolsGuard } from "@/components/devtools-guard";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,6 +51,7 @@ export default function RootLayout({
           }}
         />
         <Providers>
+          <DevToolsGuard />
           <Suspense fallback={null}>
             <NavigationLoading />
           </Suspense>

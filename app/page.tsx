@@ -7,11 +7,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { Navbar } from "@/components/navbar";
 import { ScrollProgress } from "@/components/scroll-progress";
+import { DevToolsBlocker } from "@/components/dev-tools-blocker";
 import { useEffect, useState } from "react";
 import { db } from "@/lib/db"; // Import db client
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/lib/contexts/language-context";
+import { useDevToolsDetect } from "@/hooks/use-dev-tools-detect";
 
 // Define types based on Prisma schema
 type Course = {
@@ -75,6 +77,10 @@ export default function HomePage() {
   const router = useRouter();
   const { t } = useLanguage();
 
+  useDevToolsDetect(() => {
+    router.push("/devtools-warning");
+  });
+
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -136,6 +142,7 @@ export default function HomePage() {
 
   return (
     <div className="h-full w-full bg-background">
+        <DevToolsBlocker />
         <Navbar />
         <ScrollProgress />
       {/* Hero Section */}
