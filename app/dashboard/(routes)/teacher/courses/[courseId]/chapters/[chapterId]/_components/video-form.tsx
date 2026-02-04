@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Video, Pencil, Link, HardDrive } from "lucide-react";
+import { Video, Pencil, Link } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,7 +29,7 @@ export const VideoForm = ({
     const { t } = useLanguage();
     const [isEditing, setIsEditing] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
-    const [googleDriveUrl, setGoogleDriveUrl] = useState("");
+    const [youtubeUrl, setYoutubeUrl] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
 
@@ -37,34 +37,34 @@ export const VideoForm = ({
         setIsMounted(true);
     }, []);
 
-    const onSubmitGoogleDrive = async () => {
-        if (!googleDriveUrl.trim()) {
-            toast.error("الرجاء إدخال رابط Google Drive");
+    const onSubmitYouTube = async () => {
+        if (!youtubeUrl.trim()) {
+            toast.error("الرجاء إدخال رابط YouTube");
             return;
         }
 
         try {
             setIsSubmitting(true);
-            const response = await fetch(`/api/courses/${courseId}/chapters/${chapterId}/google-drive`, {
+            const response = await fetch(`/api/courses/${courseId}/chapters/${chapterId}/youtube`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify({ googleDriveUrl }),
+                body: JSON.stringify({ youtubeUrl }),
             });
 
             if (!response.ok) {
                 const error = await response.text();
-                throw new Error(error || 'Failed to add Google Drive video');
+                throw new Error(error || 'Failed to add YouTube video');
             }
 
-            toast.success("تم إضافة فيديو Google Drive بنجاح");
+            toast.success("تم إضافة فيديو YouTube بنجاح");
             setIsEditing(false);
-            setGoogleDriveUrl("");
+            setYoutubeUrl("");
             router.refresh();
         } catch (error) {
-            console.error("[CHAPTER_GOOGLE_DRIVE]", error);
+            console.error("[CHAPTER_YOUTUBE]", error);
             toast.error(error instanceof Error ? error.message : t("teacher.chapterEdit.uploadError"));
         } finally {
             setIsSubmitting(false);
@@ -93,9 +93,10 @@ export const VideoForm = ({
             
             {!isEditing && (
                 <div className="relative aspect-video mt-2">
-                    {initialData.videoType === "GOOGLE_DRIVE" ? (
+                    {initialData.videoType === "YOUTUBE" && initialData.youtubeVideoId ? (
                         <PlyrVideoPlayer
-                            videoType="GOOGLE_DRIVE"
+                            videoType="YOUTUBE"
+                            youtubeVideoId={initialData.youtubeVideoId}
                             chapterId={chapterId}
                             className="w-full h-full"
                         />
@@ -111,21 +112,21 @@ export const VideoForm = ({
                 <div className="mt-4">
                     <div className="space-y-4">
                         <div className="text-sm text-muted-foreground">
-                            الصق رابط Google Drive للفيديو
+                            الصق رابط YouTube للفيديو
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="google-drive-url">رابط Google Drive</Label>
+                            <Label htmlFor="youtube-url">رابط YouTube</Label>
                             <div className="flex gap-2">
                                 <Input
-                                    id="google-drive-url"
-                                    placeholder="https://drive.google.com/file/d/FILE_ID/view"
-                                    value={googleDriveUrl}
-                                    onChange={(e) => setGoogleDriveUrl(e.target.value)}
+                                    id="youtube-url"
+                                    placeholder="https://www.youtube.com/watch?v=VIDEO_ID"
+                                    value={youtubeUrl}
+                                    onChange={(e) => setYoutubeUrl(e.target.value)}
                                     className="flex-1"
                                 />
                                 <Button 
-                                    onClick={onSubmitGoogleDrive}
-                                    disabled={isSubmitting || !googleDriveUrl.trim()}
+                                    onClick={onSubmitYouTube}
+                                    disabled={isSubmitting || !youtubeUrl.trim()}
                                     className="flex items-center gap-2"
                                 >
                                     <Link className="h-4 w-4" />
@@ -136,14 +137,11 @@ export const VideoForm = ({
                         <div className="text-xs text-muted-foreground">
                             الروابط المدعومة:
                             <br />
-                            • https://drive.google.com/file/d/FILE_ID/view
+                            • https://www.youtube.com/watch?v=VIDEO_ID
                             <br />
-                            • https://drive.google.com/file/d/FILE_ID/edit
+                            • https://youtu.be/VIDEO_ID
                             <br />
-                            • https://drive.google.com/open?id=FILE_ID
-                            <br />
-                            <br />
-                            ملاحظة: تأكد من أن الملف قابل للمشاركة (Anyone with the link)
+                            • https://www.youtube.com/embed/VIDEO_ID
                         </div>
                     </div>
                 </div>

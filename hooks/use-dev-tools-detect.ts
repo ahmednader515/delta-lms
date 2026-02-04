@@ -7,6 +7,16 @@ export function useDevToolsDetect(onDetect: () => void, resetKey?: string) {
   const lastOpenSeenAtRef = useRef<number | null>(null);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isMobileLike =
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.matchMedia?.("(pointer: coarse)").matches;
+      if (isMobileLike) {
+        return;
+      }
+    }
+
     if (resetKey !== undefined) {
       hasDetectedRef.current = false;
       lastOpenSeenAtRef.current = null;
