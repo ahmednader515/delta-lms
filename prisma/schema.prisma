@@ -19,7 +19,10 @@ model User {
   role                    String    @default("USER")
   grade                   String?   // الصف الأول الثانوي, الصف الثاني الثانوي, or الصف الثالث الثانوي
   balance                 Float     @default(0)
-  currentDeviceId         String?   // Track the device ID for single-device login
+  currentDeviceId         String?   // Track the device ID for single-device login (legacy)
+  isActive                Boolean   @default(false) // Tracks if user is logged in
+  sessionId               String?   @unique // Unique session identifier
+  lastLoginAt             DateTime? // Last login timestamp
   createdAt               DateTime  @default(now())
   updatedAt               DateTime  @updatedAt
   courses                 Course[]

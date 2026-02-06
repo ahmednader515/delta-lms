@@ -70,6 +70,7 @@ export default function SignInPage() {
           "NO_PASSWORD_SET": t("auth.errors.noPasswordSet"),
           "SERVER_ERROR": t("auth.errors.serverError"),
           "ALREADY_LOGGED_IN_ON_ANOTHER_DEVICE": t("auth.errors.alreadyLoggedInOnAnotherDevice"),
+          "UserAlreadyLoggedIn": t("auth.errors.alreadyLoggedInOnAnotherDevice"),
         };
 
         const errorMessage = errorMessages[validationData.error] || t("auth.errors.invalidCredentials");
@@ -94,6 +95,7 @@ export default function SignInPage() {
           "AccessDenied": t("auth.errors.accessDenied"),
           "Verification": t("auth.errors.verificationFailed"),
           "ALREADY_LOGGED_IN_ON_ANOTHER_DEVICE": t("auth.errors.alreadyLoggedInOnAnotherDevice"),
+          "UserAlreadyLoggedIn": t("auth.errors.alreadyLoggedInOnAnotherDevice"),
         };
 
         const errorMessage = errorMessages[result.error] || t("auth.errors.invalidCredentials");

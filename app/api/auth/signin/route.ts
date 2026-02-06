@@ -47,16 +47,13 @@ export async function POST(req: Request) {
       );
     }
 
-    // Check if user is already logged in on another device
-    if (user.currentDeviceId && user.currentDeviceId !== deviceId) {
+    // Check if user is already logged in (using isActive flag)
+    if (user.isActive) {
       return NextResponse.json(
-        { error: "ALREADY_LOGGED_IN_ON_ANOTHER_DEVICE" },
+        { error: "UserAlreadyLoggedIn" },
         { status: 403 }
       );
     }
-
-    // Update device ID if provided (will be updated after successful NextAuth login)
-    // For now, we just validate - the actual update happens in NextAuth authorize callback
 
     // Return success (actual authentication will be handled by NextAuth)
     return NextResponse.json({ 

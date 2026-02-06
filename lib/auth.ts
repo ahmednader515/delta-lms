@@ -7,6 +7,7 @@ import { Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prismaAdapter } from "@/lib/auth/prisma-adapter";
+import { SessionManager } from "@/lib/session-manager";
 
 export const auth = async () => {
   const session = await getServerSession(authOptions);
@@ -64,17 +65,9 @@ export const authOptions: AuthOptions = {
           throw new Error("INVALID_PASSWORD");
         }
 
-        // Check if user is already logged in on another device
-        if (user.currentDeviceId && credentials.deviceId && user.currentDeviceId !== credentials.deviceId) {
-          throw new Error("ALREADY_LOGGED_IN_ON_ANOTHER_DEVICE");
-        }
-
-        // Update device ID after successful authentication
-        if (credentials.deviceId) {
-          await db.user.update({
-            where: { id: user.id },
-            data: { currentDeviceId: credentials.deviceId },
-          });
+        // 🔑 KEY CHECK: Prevent login if user is already active
+        if (user.isActive) {
+          throw new Error("UserAlreadyLoggedIn");
         }
 
         return {
@@ -113,19 +106,28 @@ export const authOptions: AuthOptions = {
       return baseUrl;
     },
     async session({ token, session }) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.phoneNumber = token.phoneNumber;
-        session.user.image = token.picture ?? undefined;
-        session.user.role = token.role;
+      if (token && token.sessionId) {
+        // Validate session on every request
+        const { isValid } = await SessionManager.validateSession(token.sessionId as string);
+        
+        if (!isValid) {
+          // Return null to force re-authentication
+          return null as any;
+        }
+        
+        session.user.id = token.id as string;
+        session.user.name = token.name as string;
+        session.user.phoneNumber = token.phoneNumber as string;
+        session.user.image = token.picture as string | undefined;
+        session.user.role = token.role as string;
       }
 
       return session;
     },
     async jwt({ token, user }) {
       if (user) {
-        // When user first signs in, set the token with user data
+        // User just logged in - create session
+        const sessionId = await SessionManager.createSession(user.id);
         return {
           ...token,
           id: user.id,
@@ -133,10 +135,9 @@ export const authOptions: AuthOptions = {
           phoneNumber: user.phoneNumber,
           picture: (user as any).picture,
           role: user.role,
+          sessionId: sessionId,
         };
       }
-
-      // On subsequent requests, return the existing token
       return token;
     },
   },

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { SessionManager } from "@/lib/session-manager";
 
 export async function POST(req: Request) {
   try {
@@ -14,15 +14,12 @@ export async function POST(req: Request) {
       );
     }
 
-    // Clear the device ID for this user
-    await db.user.update({
-      where: { id: session.user.id },
-      data: { currentDeviceId: null },
-    });
+    // End the session (sets isActive = false)
+    await SessionManager.endSession(session.user.id);
 
     return NextResponse.json({ 
       success: true,
-      message: "Device ID cleared successfully"
+      message: "Logged out successfully"
     });
   } catch (error) {
     console.error("[LOGOUT]", error);
