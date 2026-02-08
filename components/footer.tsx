@@ -26,7 +26,7 @@ export const Footer = () => {
             </div>
             <div className="inline-block bg-brand/10 border-2 border-brand/20 rounded-lg px-6 py-3 mx-2">
               <p className="font-semibold text-lg text-brand">
-                {t("footer.secretaryWhatsapp")} : 01284495266
+                {t("footer.secretaryWhatsapp")} : 01224913239
               </p>
             </div>
             <div className="inline-block bg-brand/10 border-2 border-brand/20 rounded-lg px-6 py-3">
