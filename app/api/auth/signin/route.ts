@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
-    const { phoneNumber, password, deviceId } = await req.json();
+    const { phoneNumber, password } = await req.json();
 
     // Validate input
     if (!phoneNumber || !password) {

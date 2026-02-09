@@ -178,29 +178,17 @@ export function getDeviceId(): string {
 }
 
 /**
- * Clear the device ID from localStorage (used on logout)
- */
-export function clearDeviceId(): void {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem('device_id');
-  }
-}
-
-/**
- * Handle logout: clear device ID on server and client
+ * Handle logout: end session on server
  * This should be called before NextAuth signOut
  */
 export async function handleLogout(): Promise<void> {
   try {
-    // Clear device ID on server
+    // End session on server (sets isActive = false, clears sessionId)
     await fetch('/api/auth/logout', {
       method: 'POST',
     });
   } catch (error) {
-    console.error('Error clearing device ID on logout:', error);
+    console.error('Error ending session on logout:', error);
     // Continue with logout even if API call fails
   }
-  
-  // Clear device ID from localStorage
-  clearDeviceId();
 }

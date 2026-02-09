@@ -35,7 +35,6 @@ export const authOptions: AuthOptions = {
       credentials: {
         phoneNumber: { label: "Phone Number", type: "text" },
         password: { label: "Password", type: "password" },
-        deviceId: { label: "Device ID", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.phoneNumber || !credentials?.password) {
