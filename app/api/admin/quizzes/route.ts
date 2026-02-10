@@ -12,12 +12,24 @@ export async function GET() {
     const quizzes = await db.quiz.findMany({
       include: {
         course: { select: { id: true, title: true } },
-        questions: { select: { id: true } },
+        questions: { select: { id: true, points: true } },
       },
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json(quizzes);
+    // Calculate totalPoints for each quiz and format to match teacher API
+    const quizzesWithTotalPoints = quizzes.map(quiz => ({
+      id: quiz.id,
+      title: quiz.title,
+      courseId: quiz.courseId,
+      course: {
+        id: quiz.course.id,
+        title: quiz.course.title
+      },
+      totalPoints: quiz.questions.reduce((sum, q) => sum + q.points, 0)
+    }));
+
+    return NextResponse.json(quizzesWithTotalPoints);
   } catch (e) {
     return NextResponse.json({ error: "Internal Error" }, { status: 500 });
   }

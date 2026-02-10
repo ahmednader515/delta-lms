@@ -78,6 +78,11 @@ export const SidebarRoutes = ({ closeOnClick = false }: { closeOnClick?: boolean
             label: t("sidebar.teacher.createStudentAccount"),
             href: "/dashboard/teacher/create-account",
         },
+        {
+            icon: TrendingUp,
+            label: t("sidebar.admin.studentProgress"),
+            href: "/dashboard/teacher/progress",
+        },
     ];
 
     const adminRoutes = [
@@ -95,6 +100,11 @@ export const SidebarRoutes = ({ closeOnClick = false }: { closeOnClick?: boolean
             icon: FileText,
             label: t("sidebar.admin.quizzes"),
             href: "/dashboard/admin/quizzes",
+        },
+        {
+            icon: Award,
+            label: t("sidebar.teacher.grades"),
+            href: "/dashboard/admin/grades",
         },
         {
             icon: Shield,

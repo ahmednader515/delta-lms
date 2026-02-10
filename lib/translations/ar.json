@@ -817,6 +817,7 @@
       "course": "كورس",
       "chapter": "فصل",
       "viewProgress": "عرض التقدم",
+      "noStudents": "لا يوجد طلاب",
       "dialog": {
         "title": "تقدم {name}",
         "summary": {
@@ -842,7 +843,8 @@
           "lastUpdate": "آخر تحديث",
           "completed": "مكتمل",
           "inProgress": "قيد التقدم",
-          "notStarted": "لم يبدأ"
+          "notStarted": "لم يبدأ",
+          "noChapters": "لا توجد فصول"
         },
         "noProgress": "لا يوجد تقدم",
         "noPurchases": "لا توجد كورسات مشتراة"

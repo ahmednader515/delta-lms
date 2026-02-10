@@ -817,6 +817,7 @@
       "course": "course",
       "chapter": "chapter",
       "viewProgress": "View Progress",
+      "noStudents": "No students",
       "dialog": {
         "title": "Progress for {name}",
         "summary": {
@@ -842,7 +843,8 @@
           "lastUpdate": "Last Update",
           "completed": "Completed",
           "inProgress": "In Progress",
-          "notStarted": "Not Started"
+          "notStarted": "Not Started",
+          "noChapters": "No chapters"
         },
         "noProgress": "No progress available",
         "noPurchases": "No purchased courses"
