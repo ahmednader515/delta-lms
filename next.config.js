@@ -19,6 +19,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: '7o7q29b8xy.ufs.sh',
       },
+      {
+        protocol: 'https',
+        hostname: '**.r2.dev',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.r2.cloudflarestorage.com',
+      },
     ],
   },
   serverExternalPackages: ['@prisma/client', 'bcrypt'],

@@ -5,10 +5,10 @@ import "plyr/dist/plyr.css";
 import "./google-drive-player.css";
 
 interface PlyrVideoPlayerProps {
-  videoUrl?: string;
+  videoUrl?: string; // Direct video URL (e.g., from R2)
   youtubeVideoId?: string;
   googleDriveFileId?: string; // Google Drive file ID (for non-secure use cases)
-  videoType?: "YOUTUBE" | "GOOGLE_DRIVE";
+  videoType?: "YOUTUBE" | "GOOGLE_DRIVE" | "R2" | "DIRECT";
   className?: string;
   onEnded?: () => void;
   onTimeUpdate?: (currentTime: number) => void;
@@ -28,6 +28,7 @@ export const PlyrVideoPlayer = ({
   const youtubeEmbedRef = useRef<HTMLDivElement>(null);
   const googleDriveIframeRef = useRef<HTMLIFrameElement>(null);
   const proxyIframeRef = useRef<HTMLIFrameElement>(null);
+  const html5VideoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<any>(null);
   const [googleDriveFileId, setGoogleDriveFileId] = useState<string | null>(null);
   const [googleDriveSrcDoc, setGoogleDriveSrcDoc] = useState<string | null>(null);
@@ -346,6 +347,63 @@ export const PlyrVideoPlayer = ({
       return;
     }
     
+    // For direct video URLs (R2 or other), use HTML5 video element
+    if ((videoType === "R2" || videoType === "DIRECT" || videoUrl) && !youtubeVideoId) {
+      let isCancelled = false;
+
+      async function setupDirectVideoPlayer() {
+        const targetEl = html5VideoRef.current;
+        if (!targetEl || !videoUrl) return;
+
+        const plyrModule: any = await import("plyr");
+        const Plyr: any = plyrModule.default ?? plyrModule;
+
+        if (isCancelled) return;
+
+        // Destroy any previous instance
+        if (playerRef.current && typeof playerRef.current.destroy === "function") {
+          playerRef.current.destroy();
+          playerRef.current = null;
+        }
+
+        const player = new Plyr(targetEl, {
+          controls: [
+            "play-large",
+            "play",
+            "progress",
+            "current-time",
+            "duration",
+            "mute",
+            "volume",
+            "captions",
+            "settings",
+            "pip",
+            "airplay",
+            "fullscreen"
+          ],
+          settings: ["speed", "quality", "loop"],
+          speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 2] },
+          ratio: "16:9"
+        });
+
+        playerRef.current = player;
+
+        if (onEnded) player.on("ended", onEnded);
+        if (onTimeUpdate)
+          player.on("timeupdate", () => onTimeUpdate(player.currentTime || 0));
+      }
+
+      setupDirectVideoPlayer();
+
+      return () => {
+        isCancelled = true;
+        if (playerRef.current && typeof playerRef.current.destroy === "function") {
+          playerRef.current.destroy();
+        }
+        playerRef.current = null;
+      };
+    }
+    
     let isCancelled = false;
 
     async function setupPlayer() {
@@ -553,6 +611,39 @@ export const PlyrVideoPlayer = ({
           data-plyr-embed-id={youtubeVideoId}
           className="w-full h-full"
         />
+      </div>
+    );
+  }
+
+  // For direct video URLs (R2 or other direct video files)
+  if ((videoType === "R2" || videoType === "DIRECT" || videoUrl) && !youtubeVideoId && !propGoogleDriveFileId) {
+    if (!videoUrl) {
+      return (
+        <div className={`aspect-video bg-muted rounded-lg flex items-center justify-center ${className || ""}`}>
+          <div className="text-muted-foreground">لا يوجد فيديو</div>
+        </div>
+      );
+    }
+
+    return (
+      <div className={`aspect-video ${className || ""}`}>
+        <video
+          ref={html5VideoRef}
+          className="w-full h-full"
+          playsInline
+          crossOrigin="anonymous"
+          preload="metadata"
+          key={videoUrl}
+        >
+          {videoUrl ? (
+            <>
+              <source src={videoUrl} type="video/mp4" />
+              <source src={videoUrl} type="video/webm" />
+              <source src={videoUrl} type="video/ogg" />
+              Your browser does not support the video tag.
+            </>
+          ) : null}
+        </video>
       </div>
     );
   }

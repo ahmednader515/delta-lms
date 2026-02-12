@@ -61,7 +61,7 @@ export const AttachmentsForm = ({
     // Helper function to download document
     const downloadDocument = async (url: string, name: string) => {
         try {
-            // For uploadthing URLs, we'll use a different approach
+            // For R2 URLs, we'll use a different approach
             // First, try to fetch the file with proper CORS handling
             const response = await fetch(url, {
                 method: 'GET',

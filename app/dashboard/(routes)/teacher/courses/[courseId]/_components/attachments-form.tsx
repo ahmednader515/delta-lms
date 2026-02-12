@@ -6,7 +6,7 @@ import { File, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import axios from "axios";
-import { UploadButton } from "@/lib/uploadthing";
+import { R2FileUpload } from "@/components/r2-file-upload";
 
 interface AttachmentsFormProps {
     initialData: {
@@ -49,14 +49,16 @@ export const AttachmentsForm = ({
                         الملفات والمرفقات
                     </h2>
                 </div>
-                <UploadButton
-                    endpoint="courseAttachment"
-                    onClientUploadComplete={async (res) => {
-                        if (res && res[0]) {
+                <R2FileUpload
+                    folder="documents"
+                    accept="image/*,application/pdf,video/*,audio/*,text/*"
+                    maxSize={512 * 1024 * 1024}
+                    onChange={async (res) => {
+                        if (res) {
                             try {
                                 await axios.post(`/api/courses/${courseId}/attachments`, {
-                                    url: res[0].url,
-                                    name: res[0].name
+                                    url: res.url,
+                                    name: res.name
                                 });
                                 toast.success("تم رفع الملف");
                                 router.refresh();
@@ -64,9 +66,6 @@ export const AttachmentsForm = ({
                                 toast.error("حدث خطأ");
                             }
                         }
-                    }}
-                    onUploadError={(error: Error) => {
-                        toast.error(`حدث خطأ: ${error.message}`);
                     }}
                 />
             </div>

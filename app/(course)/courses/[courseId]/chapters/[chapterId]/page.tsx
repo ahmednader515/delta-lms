@@ -97,7 +97,7 @@ const ChapterPage = () => {
   // Helper function to download attachment
   const downloadAttachment = async (url: string, name: string) => {
     try {
-      // For uploadthing URLs, we'll use a different approach
+      // For R2 URLs, we'll use a different approach
       const response = await fetch(url, {
         method: 'GET',
         mode: 'cors',

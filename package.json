@@ -12,10 +12,17 @@
     "fix:quiz-options": "node scripts/fix-quiz-options.js",
     "test:quiz-options": "node scripts/test-quiz-options.js",
     "migrate-uploadthing": "npx tsx ./scripts/migrate-uploadthing-files.ts",
+    "download-uploadthing": "npx tsx ./scripts/download-uploadthing-files.ts",
+    "upload-to-r2": "npx tsx ./scripts/upload-to-r2.ts",
+    "migrate-db-to-r2": "npx tsx ./scripts/migrate-db-urls-to-r2.ts",
+    "setup-r2-cors": "npx tsx ./scripts/setup-r2-cors.ts",
+    "backup-db-urls": "npx tsx ./scripts/backup-db-urls.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.8.0",
+    "@aws-sdk/client-s3": "^3.988.0",
+    "@aws-sdk/lib-storage": "^3.988.0",
     "@clerk/nextjs": "^6.36.0",
     "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^4.1.3",
@@ -48,7 +55,6 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/query-string": "^6.2.0",
     "@types/react-google-recaptcha": "^2.1.9",
-    "@uploadthing/react": "^7.3.0",
     "axios": "^1.8.4",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
@@ -80,7 +86,6 @@
     "tailwind-merge": "^3.0.2",
     "tw-animate-css": "^1.2.5",
     "twilio": "^5.7.0",
-    "uploadthing": "^7.6.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -90,6 +95,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^16.6.1",
     "eslint": "^9",
     "eslint-config-next": "^16.0.7",
     "prisma": "^6.19.0",

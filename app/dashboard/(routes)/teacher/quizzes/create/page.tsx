@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { usePathname } from "next/navigation";
 import { useNavigationRouter } from "@/lib/hooks/use-navigation-router";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { UploadDropzone } from "@/lib/uploadthing";
+import { R2FileUpload } from "@/components/r2-file-upload";
 import { useLanguage } from "@/lib/contexts/language-context";
 
 interface Course {
@@ -685,21 +685,16 @@ const CreateQuizPage = () => {
                                             </div>
                                         ) : (
                                             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
-                                                <UploadDropzone
-                                                    endpoint="courseAttachment"
-                                                    onClientUploadComplete={(res) => {
-                                                        if (res && res[0]) {
-                                                            updateQuestion(index, "imageUrl", res[0].url);
+                                                <R2FileUpload
+                                                    folder="images"
+                                                    accept="image/*"
+                                                    maxSize={4 * 1024 * 1024}
+                                                    onChange={(res) => {
+                                                        if (res) {
+                                                            updateQuestion(index, "imageUrl", res.url);
                                                             toast.success(t("teacher.quizzes.create.questions.imageUploadSuccess"));
                                                         }
                                                         setUploadingImages(prev => ({ ...prev, [index]: false }));
-                                                    }}
-                                                    onUploadError={(error: Error) => {
-                                                        toast.error(t("teacher.quizzes.create.questions.imageUploadError", { error: error.message }));
-                                                        setUploadingImages(prev => ({ ...prev, [index]: false }));
-                                                    }}
-                                                    onUploadBegin={() => {
-                                                        setUploadingImages(prev => ({ ...prev, [index]: true }));
                                                     }}
                                                 />
                                             </div>
