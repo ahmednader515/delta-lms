@@ -64,8 +64,9 @@ export const authOptions: AuthOptions = {
           throw new Error("INVALID_PASSWORD");
         }
 
-        // 🔑 KEY CHECK: Prevent login if user is already active
-        if (user.isActive) {
+        // 🔑 KEY CHECK: Prevent login if user is already active (only for regular users)
+        // TEACHER and ADMIN can login on multiple devices
+        if (user.isActive && user.role !== "TEACHER" && user.role !== "ADMIN") {
           throw new Error("UserAlreadyLoggedIn");
         }
 
@@ -106,19 +107,47 @@ export const authOptions: AuthOptions = {
     },
     async session({ token, session }) {
       if (token && token.sessionId) {
-        // Validate session on every request
-        const { isValid } = await SessionManager.validateSession(token.sessionId as string);
-        
-        if (!isValid) {
-          // Return null to force re-authentication
-          return null as any;
+        try {
+          // Pass userId for TEACHER/ADMIN multi-device support
+          const { user: validatedUser, isValid } = await SessionManager.validateSession(
+            token.sessionId as string,
+            token.id as string
+          );
+          
+          if (!isValid) {
+            // Return expired session to force re-authentication
+            return {
+              ...session,
+              user: {
+                id: "",
+                name: "",
+                email: "",
+                role: "",
+              },
+              expires: "1970-01-01T00:00:00.000Z", // Expired date
+            };
+          }
+          
+          // Populate session with validated user data
+          session.user.id = validatedUser?.id || token.id as string;
+          session.user.name = validatedUser?.fullName || token.name as string;
+          session.user.phoneNumber = validatedUser?.phoneNumber || token.phoneNumber as string;
+          session.user.image = validatedUser?.image || token.picture as string | undefined;
+          session.user.role = validatedUser?.role || token.role as string;
+        } catch (error) {
+          console.error("[SESSION_CALLBACK_ERROR]", error);
+          // Return expired session on error
+          return {
+            ...session,
+            user: {
+              id: "",
+              name: "",
+              email: "",
+              role: "",
+            },
+            expires: "1970-01-01T00:00:00.000Z",
+          };
         }
-        
-        session.user.id = token.id as string;
-        session.user.name = token.name as string;
-        session.user.phoneNumber = token.phoneNumber as string;
-        session.user.image = token.picture as string | undefined;
-        session.user.role = token.role as string;
       }
 
       return session;
