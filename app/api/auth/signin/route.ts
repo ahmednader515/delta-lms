@@ -48,7 +48,8 @@ export async function POST(req: Request) {
     }
 
     // Check if user is already logged in (using isActive flag)
-    if (user.isActive) {
+    // TEACHER and ADMIN can login on multiple devices, so skip this check for them
+    if (user.isActive && user.role !== "TEACHER" && user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "UserAlreadyLoggedIn" },
         { status: 403 }
