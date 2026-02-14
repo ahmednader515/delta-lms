@@ -69,11 +69,8 @@ export async function GET(req: NextRequest) {
             countSelect.userProgress = true;
         }
 
-        // Get ALL students (like admin does), but count only purchases/progress for teacher's courses
+        // Get ALL users (admins, teachers, and students), but count only purchases/progress for teacher's courses
         const users = await db.user.findMany({
-            where: {
-                role: "USER" // Only students
-            },
             select: {
                 id: true,
                 fullName: true,
