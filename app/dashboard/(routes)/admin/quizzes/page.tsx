@@ -52,7 +52,7 @@ export default function AdminQuizzesPage() {
   }, []);
 
   const filteredQuizzes = quizzes.filter((quiz) =>
-    [quiz.title, quiz.course.title].some((value) =>
+    [quiz.title, quiz.course?.title].filter(Boolean).some((value) =>
       value.toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
@@ -183,7 +183,7 @@ export default function AdminQuizzesPage() {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="secondary">{quiz.questions.length} {t("admin.quizzes.question")}</Badge>
+                      <Badge variant="secondary">{(quiz.questions?.length || 0)} {t("admin.quizzes.question")}</Badge>
                     </TableCell>
                     <TableCell>
                       {new Date(quiz.createdAt).toLocaleDateString("ar-EG")}

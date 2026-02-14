@@ -21,12 +21,17 @@ export async function GET() {
     const quizzesWithTotalPoints = quizzes.map(quiz => ({
       id: quiz.id,
       title: quiz.title,
+      description: quiz.description || "",
       courseId: quiz.courseId,
+      position: quiz.position,
+      isPublished: quiz.isPublished,
       course: {
         id: quiz.course.id,
         title: quiz.course.title
       },
-      totalPoints: quiz.questions.reduce((sum, q) => sum + q.points, 0)
+      questions: quiz.questions.map(q => ({ id: q.id })),
+      totalPoints: quiz.questions.reduce((sum, q) => sum + q.points, 0),
+      createdAt: quiz.createdAt.toISOString()
     }));
 
     return NextResponse.json(quizzesWithTotalPoints);
