@@ -108,9 +108,13 @@ export function SessionMonitor() {
   // Monitor session status changes
   useEffect(() => {
     if (status === "authenticated" && session) {
-      const isExpired = session.expires && new Date(session.expires) < new Date();
+      // Only check expiration if expires is set and is a valid date
+      const isExpired = session.expires && 
+                       session.expires !== "1970-01-01T00:00:00.000Z" && 
+                       new Date(session.expires) < new Date();
       const hasInvalidUser = !session.user?.id || session.user.id === "";
       
+      // Only trigger logout if session is actually expired (not the placeholder expired date)
       if (isExpired || hasInvalidUser) {
         handleLogout();
         return;
@@ -126,44 +130,58 @@ export function SessionMonitor() {
   }, [status, session, router, handleLogout]);
 
   // Periodic session validation check (every 5 seconds)
+  // Add a delay before first check to avoid false positives right after login
   useEffect(() => {
     if (typeof window === "undefined" || status !== "authenticated" || !session) {
       return;
     }
 
-    const checkSession = async () => {
-      try {
-        const response = await fetch("/api/auth/session", {
-          method: "GET",
-          cache: "no-store",
-        });
+    // Wait 2 seconds before first check to allow session to fully initialize
+    const initialDelay = setTimeout(() => {
+      const checkSession = async () => {
+        try {
+          const response = await fetch("/api/auth/session", {
+            method: "GET",
+            cache: "no-store",
+          });
 
-        if (!response.ok) {
-          handleLogout();
-          return;
+          if (!response.ok) {
+            // Only logout if it's a 401 (unauthorized), not other errors
+            if (response.status === 401) {
+              handleLogout();
+            }
+            return;
+          }
+
+          const sessionData = await response.json();
+          
+          // Check if session has valid user data
+          if (!sessionData?.user?.id || sessionData.user.id === "") {
+            handleLogout();
+            return;
+          }
+
+          // Only check expiration if expires is set and is not the placeholder expired date
+          if (sessionData.expires && 
+              sessionData.expires !== "1970-01-01T00:00:00.000Z" && 
+              new Date(sessionData.expires) < new Date()) {
+            handleLogout();
+            return;
+          }
+        } catch (error) {
+          console.error("Session check error:", error);
+          // Don't logout on network errors, only on actual session errors
+          // The API interceptors will handle 401 errors
         }
+      };
 
-        const sessionData = await response.json();
-        
-        if (!sessionData?.user?.id || sessionData.user.id === "") {
-          handleLogout();
-          return;
-        }
+      checkSession();
+      const interval = setInterval(checkSession, 5000);
 
-        if (sessionData.expires && new Date(sessionData.expires) < new Date()) {
-          handleLogout();
-          return;
-        }
-      } catch (error) {
-        console.error("Session check error:", error);
-        handleLogout();
-      }
-    };
+      return () => clearInterval(interval);
+    }, 2000);
 
-    checkSession();
-    const interval = setInterval(checkSession, 5000);
-
-    return () => clearInterval(interval);
+    return () => clearTimeout(initialDelay);
   }, [status, session, handleLogout]);
 
   return null;

@@ -70,6 +70,10 @@ export class SessionManager {
   // Validate session on each request
   // Supports multi-device login for TEACHER/ADMIN by accepting optional userId
   static async validateSession(sessionId: string, userId?: string): Promise<{ user: any; isValid: boolean }> {
+    if (!sessionId) {
+      return { user: null, isValid: false };
+    }
+
     let user = null;
 
     // For TEACHER/ADMIN multi-device support: if userId is provided, find by userId first
@@ -102,20 +106,25 @@ export class SessionManager {
 
     // For regular users or if userId not provided, find by sessionId
     if (!user) {
-      user = await db.user.findUnique({
-        where: { sessionId },
-        select: {
-          id: true,
-          fullName: true,
-          phoneNumber: true,
-          email: true,
-          role: true,
-          image: true,
-          isActive: true,
-          sessionId: true,
-          lastLoginAt: true
-        },
-      });
+      try {
+        user = await db.user.findUnique({
+          where: { sessionId },
+          select: {
+            id: true,
+            fullName: true,
+            phoneNumber: true,
+            email: true,
+            role: true,
+            image: true,
+            isActive: true,
+            sessionId: true,
+            lastLoginAt: true
+          },
+        });
+      } catch (error) {
+        console.error("[VALIDATE_SESSION_ERROR]", error);
+        return { user: null, isValid: false };
+      }
     }
 
     if (!user || !user.isActive) {
