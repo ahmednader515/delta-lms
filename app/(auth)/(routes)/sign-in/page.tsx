@@ -44,8 +44,8 @@ export default function SignInPage() {
     }
 
     try {
-      // First, validate credentials with our custom API to get specific error messages
-      const validationResponse = await fetch("/api/auth/signin", {
+      // First, validate credentials and check login status
+      const statusResponse = await fetch("/api/auth/validate-and-check-status", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,26 +56,22 @@ export default function SignInPage() {
         }),
       });
 
-      const validationData = await validationResponse.json();
+      const statusData = await statusResponse.json();
 
-      if (!validationResponse.ok || validationData.error) {
-        // Handle specific error messages
-        const errorMessages: Record<string, string> = {
-          "MISSING_CREDENTIALS": t("auth.errors.missingCredentials"),
-          "INVALID_CREDENTIALS": t("auth.errors.invalidCredentials"),
-          "NO_PASSWORD_SET": t("auth.errors.noPasswordSet"),
-          "SERVER_ERROR": t("auth.errors.serverError"),
-          "ALREADY_LOGGED_IN_ON_ANOTHER_DEVICE": t("auth.errors.alreadyLoggedInOnAnotherDevice"),
-          "UserAlreadyLoggedIn": t("auth.errors.alreadyLoggedInOnAnotherDevice"),
-        };
-
-        const errorMessage = errorMessages[validationData.error] || t("auth.errors.invalidCredentials");
-        toast.error(errorMessage);
+      if (!statusResponse.ok || !statusData.isValid) {
+        toast.error(t("auth.errors.invalidCredentials"));
         setIsLoading(false);
         return;
       }
 
-      // If validation passes, proceed with NextAuth sign-in
+      // If user is already logged in, redirect to device-conflict page
+      if (statusData.isAlreadyLoggedIn) {
+        router.push(`/device-conflict?phoneNumber=${encodeURIComponent(formData.phoneNumber.trim())}`);
+        setIsLoading(false);
+        return;
+      }
+
+      // If validation passes and user is not logged in, proceed with NextAuth sign-in
       const result = await signIn("credentials", {
         phoneNumber: formData.phoneNumber.trim(),
         password: formData.password,

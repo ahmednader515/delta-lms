@@ -45,6 +45,13 @@
     "creatingAccount": "Creating account...",
     "passwordsMatch": "Passwords match",
     "passwordsNotMatch": "Passwords do not match",
+    "accountLoggedInAnotherDevice": "Account Logged In on Another Device",
+    "accountLoggedInAnotherDeviceDescription": "This account is currently logged in on another device. To sign in on this device, you need to sign out from all other devices first.",
+    "forceLoginWarning": "This will sign you out from all other devices. You will then be signed in on this device.",
+    "signingOutAllDevices": "Signing out all devices...",
+    "signOutAllDevicesAndSignIn": "Sign Out All Devices & Sign In",
+    "forceLoginError": "Failed to sign out other devices",
+    "phonePasswordRequired": "Phone number and password are required",
     "errors": {
       "missingCredentials": "Please enter phone number and password",
       "invalidCredentials": "Invalid phone number or password",

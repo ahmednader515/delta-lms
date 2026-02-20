@@ -27,11 +27,16 @@ export function SessionMonitor() {
       toast.error(t('auth.sessionExpired') || "Your session has expired. Please sign in again.");
     }
     
-    // Redirect to homepage immediately
-    router.push("/");
-    
-    // Sign out in the background
+    // Sign out from NextAuth
     signOut({ redirect: false });
+    
+    // Use full page reload to ensure the old device fully refreshes
+    // This ensures the old device detects the logout when logged out from another device
+    if (typeof window !== "undefined") {
+      window.location.href = "/";
+    } else {
+      router.push("/");
+    }
   }, [t, router]);
 
   // Intercept API calls for 401 errors

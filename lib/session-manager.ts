@@ -41,7 +41,8 @@ export class SessionManager {
     return sessionId;
   }
 
-  // End session (sets isActive = false)
+  // End session (sets isActive = false and clears sessionId)
+  // This clears both fields to ensure the user is fully logged out
   static async endSession(userId: string): Promise<void> {
     await db.user.update({
       where: { id: userId },
@@ -85,7 +86,6 @@ export class SessionManager {
           id: true,
           fullName: true,
           phoneNumber: true,
-          email: true,
           role: true,
           image: true,
           isActive: true,
@@ -113,7 +113,6 @@ export class SessionManager {
             id: true,
             fullName: true,
             phoneNumber: true,
-            email: true,
             role: true,
             image: true,
             isActive: true,

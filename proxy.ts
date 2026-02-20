@@ -21,7 +21,8 @@ export default withAuth(
     const isAuthPage = req.nextUrl.pathname.startsWith("/sign-in") || 
                       req.nextUrl.pathname.startsWith("/sign-up") ||
                       req.nextUrl.pathname.startsWith("/forgot-password") ||
-                      req.nextUrl.pathname.startsWith("/reset-password");
+                      req.nextUrl.pathname.startsWith("/reset-password") ||
+                      req.nextUrl.pathname.startsWith("/device-conflict");
     
     // Add check for payment status page
     const isPaymentStatusPage = req.nextUrl.pathname.includes("/payment-status");

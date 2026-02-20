@@ -45,6 +45,13 @@
     "creatingAccount": "جاري إنشاء الحساب...",
     "passwordsMatch": "كلمات المرور متطابقة",
     "passwordsNotMatch": "كلمات المرور غير متطابقة",
+    "accountLoggedInAnotherDevice": "الحساب مسجل دخول على جهاز آخر",
+    "accountLoggedInAnotherDeviceDescription": "هذا الحساب مسجل دخول حالياً على جهاز آخر. لتسجيل الدخول على هذا الجهاز، تحتاج إلى تسجيل الخروج من جميع الأجهزة الأخرى أولاً.",
+    "forceLoginWarning": "سيؤدي هذا إلى تسجيل خروجك من جميع الأجهزة الأخرى. ثم سيتم تسجيل دخولك على هذا الجهاز.",
+    "signingOutAllDevices": "جاري تسجيل الخروج من جميع الأجهزة...",
+    "signOutAllDevicesAndSignIn": "تسجيل الخروج من جميع الأجهزة وتسجيل الدخول",
+    "forceLoginError": "فشل تسجيل الخروج من الأجهزة الأخرى",
+    "phonePasswordRequired": "رقم الهاتف وكلمة المرور مطلوبان",
     "errors": {
       "missingCredentials": "الرجاء إدخال رقم الهاتف وكلمة المرور",
       "invalidCredentials": "رقم الهاتف أو كلمة المرور خطأ",
