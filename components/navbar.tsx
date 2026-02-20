@@ -11,13 +11,17 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { handleLogout } from "@/lib/utils";
 
 export const Navbar = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const { t } = useLanguage();
 
   const handleLogoutClick = async () => {
     await handleLogout();
     await signOut({ callbackUrl: "/" });
   };
+
+  // Check if session is valid (not expired or empty)
+  // Expired sessions have empty user.id
+  const isValidSession = session?.user?.id && session.user.id !== "";
 
   return (
     <div className="fixed top-0 w-full z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -38,7 +42,7 @@ export const Navbar = () => {
           {/* Right side items */}
           <div className="flex items-center gap-2 md:gap-4">
             <LanguageSwitcher />
-            {!session ? (
+            {!isValidSession || status === "unauthenticated" ? (
               <>
                 <Button className="bg-brand hover:bg-brand/90 text-white text-xs md:text-sm px-2 md:px-4 h-8 md:h-10" asChild>
                   <Link href="/sign-up">{t("navigation.signUp")}</Link>

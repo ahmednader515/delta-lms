@@ -15,7 +15,7 @@ export function SessionMonitor() {
   const toastShownRef = useRef(false);
 
   // Function to handle logout and redirect to homepage
-  const handleLogout = useCallback(() => {
+  const handleLogout = useCallback(async () => {
     if (isLoggingOutRef.current) return;
     
     isLoggingOutRef.current = true;
@@ -27,8 +27,22 @@ export function SessionMonitor() {
       toast.error(t('auth.sessionExpired') || "Your session has expired. Please sign in again.");
     }
     
-    // Sign out from NextAuth
-    signOut({ redirect: false });
+    // Sign out from NextAuth and wait for it to complete
+    await signOut({ redirect: false });
+    
+    // Clear NextAuth session cookie explicitly
+    if (typeof document !== "undefined") {
+      // Clear all NextAuth-related cookies
+      document.cookie.split(";").forEach((c) => {
+        const cookieName = c.trim().split("=")[0];
+        if (cookieName.includes("next-auth") || cookieName.includes("authjs")) {
+          document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        }
+      });
+    }
+    
+    // Small delay to ensure cookies are cleared
+    await new Promise(resolve => setTimeout(resolve, 100));
     
     // Use full page reload to ensure the old device fully refreshes
     // This ensures the old device detects the logout when logged out from another device

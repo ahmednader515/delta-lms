@@ -30,6 +30,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
       refetchInterval={0} // Disable automatic refetching
       refetchOnWindowFocus={false} // Disable refetch on window focus
       refetchWhenOffline={false} // Don't refetch when offline
+      refetchOnMount={true} // Refetch session on mount to ensure it's up-to-date after page reload
     >
       <SessionHandler>
         <LanguageProvider>
