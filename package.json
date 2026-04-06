@@ -17,6 +17,7 @@
     "migrate-db-to-r2": "npx tsx ./scripts/migrate-db-urls-to-r2.ts",
     "setup-r2-cors": "npx tsx ./scripts/setup-r2-cors.ts",
     "backup-db-urls": "npx tsx ./scripts/backup-db-urls.ts",
+    "migrate-db": "npx tsx ./scripts/migrate-db.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {
